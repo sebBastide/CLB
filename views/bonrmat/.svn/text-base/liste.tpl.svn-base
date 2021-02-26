@@ -1,0 +1,101 @@
+<h1>Extranet {$client_had.lb_donneur_ordre}</h1>
+
+<form name="recherche" class="form l150" method="post" action="/bonrmat/liste">
+	<fieldset class="bloc_recherche">
+		<legend>Recherche des bons de récupérations matériels</legend>
+		<div class="gauche">
+			<ol>
+				<li><label>N° de bon </label> <input type="text" style="width:200px" value="{$r_bonrec_materiel.r_numbrmat}" name="r_nom" /></li>
+				<li><label>Nom patient </label> <input type="text"  value="{$r_bonrec_materiel.r_lb_nom}" name="r_lb_nom" /></li>
+				<li><label>Date demande</label> <input type="text" class="date" value="{$r_bonrec_materiel.r_datdem}" name="r_datdem" /></li>
+				<li><label>Date recupération</label> <input type="text" class="date" value="{$r_bonrec_materiel.r_datrec}" name="r_datrec" /></li>
+			</ol>
+		</div>
+		<div class="droite">
+			<ol>
+				<li><label>Statut </label> <select name="r_statut" style="width: 150px;">
+					<option value="T" {if $r_bonrec_materiel.r_statut EQ "T"}selected{/if}>- Tous -</option>
+					<option value="A" {if $r_bonrec_materiel.r_statut EQ "A"}selected{/if}>Actifs</option>
+					<option value="D" {if $r_bonrec_materiel.r_statut EQ "D"}selected{/if}>Inactifs</option>
+				</select></li>
+			</ol>
+		</div>
+				
+		<div class="separe h_20"></div>
+		<input name="btn_recherche" class="boutton" type="submit" value="RECHERCHER">
+		<div class="separe"></div>
+
+	</fieldset>
+
+	<table id="tableau_resultat" class="display" style="color: black;">
+		<thead>
+			<tr>
+				<th>Donneur d'ordre</th>
+				<th>N° bon</th>
+				<th>Date demande</th>
+				<th>Patient</th>
+				<th>Date récupération</th>
+				<th>Date fin HAD</th>
+				<th>Statut</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+	</table>
+
+	</form>
+	{literal}
+<script type="text/javascript">
+var table = $('#tableau_resultat').dataTable( {
+    "autoWidth" : true,
+    "processing": true,
+    "scrollX": "100%",
+    "scrollY": "400px",
+     "scrollCollapse": true,
+ 	"dom": 'C<"clear">RtiS',
+    "deferRender":true,
+    "scroller": {
+          "loadingIndicator": true
+      },
+     "colReorder": {
+          "fixedColumns": 1 ,      //colonnes non deplacables a droite
+          "fixedColumnsRight": 3  //colonnes non deplacables a droite
+                },
+     "colVis": {
+                    exclude: [0, 1, 6, 7, 8]
+                },
+    "language": { "url": "/js/dataTables.french.lang" },
+	"columns": [
+	               {name:"B.sk_client", "visible":false},
+				   {name:"numbrmat"},
+	               {name:"datdem"},
+				   {name:"lb_nom"},
+				   {name:"datrec"},
+				   {name:"datfinhad"},
+	               {name:"B.statut" , "visible":false},
+	               { "orderable": false },
+	               { "orderable": false }
+	             ],
+     "ajax": "/bonrmat/tableau_json",
+     "serverSide": true,
+   	 "stateSave":true       	 
+});	
+
+function activer(numbrmat){
+	//appel suppression avec confirmation
+	confirm_url_ajax('Voulez-vous vraiment réactiver ce bon de récupération matériel ?',
+				     '/bonrmat/activer/'+numbrmat,table);
+				 }
+function desactiver(numbrmat){
+	//appel suppression avec confirmation
+	confirm_url_ajax('Voulez-vous vraiment désactiver ce bon de récupération matériel ?',
+					 '/bonrmat/desactiver/'+numbrmat,table);
+			 
+	}
+       
+function editer(numbrmat){
+//appel fonction editer	   
+	   window.location.href='/bonrmat/modifier/'+numbrmat;
+}
+</script>
+{/literal}

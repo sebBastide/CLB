@@ -1,0 +1,83 @@
+<p><span style="font-family:comic sans ms,cursive">Bonjour,</span></p>
+
+<p><span style="font-family:comic sans ms,cursive">Veuillez trouvez ci-joint le&nbsp;bon de commande&nbsp;{$boncde.numcde}&nbsp;</span></p>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<span style="font-family:comic sans ms,cursive"><u>Patient n° {$patient.ext_patient} :</u><br />	
+	<br />
+	{if $boncde.datfinhad NE 0} Fin de HAD le {$boncde.datfinhad} - Raison : {$raison.librai}
+	<br />
+	<br />	
+	 {/if}	
+	<strong>{$patient.lb_titre} {$patient.lb_nom}</strong> </span><br />
+	<br />
+	<strong>{$patient.lb_adresse}</strong><br />
+	<strong>{$patient.lb_codepostal} {$patient.lb_ville}</strong><br />
+	<br />
+	<strong>{$patient.lb_telephone}</strong><br />
+	<br />
+		
+	<em>Livré &agrave; : &nbsp;</em>{if $boncde.lieliv=="P"}Domicile{/if}{if $boncde.lieliv=="S"}HAD{/if}{if $boncde.lieliv=="A"}Autres :{/if}{$boncde.lielivaut}<br/><br/><em>Date Livraison :</em>{$boncde.datliv} - {if $boncde.jrsliv=="PM"}Apres-midi{/if}{if $boncde.jrsliv=="AM"}Matin{/if}<br/><br/><em>Commentaire :&nbsp;</em>{$boncde.com}<br/><br/>
+		IDE Formation :<br>
+		&nbsp;&nbsp;&nbsp;Contact . :{$boncde.coordidel}<br>
+		&nbsp;&nbsp;&nbsp;Téléphone :{$boncde.telidel}
+
+	<br />
+
+	{if empty($produitsajout) && empty($produitssupp) && empty($produitsmaj)}
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<span style="font-family:comic sans ms,cursive"><u>Produit(s) commandé(s) le {$boncde.datdem } pour le {$boncde.datliv } :</u> <br />
+			<br />
+			{foreach $groupes as $k => $groupe}
+			<br />
+			<strong>{$groupe.lb_hierachie} </strong><br />
+			<br />
+			{foreach $groupe.produits as $k => $produit}	
+			<strong>{$produit.sk_produit|replace:'FKL55651':'FKL5565'|replace:'FKL55652':'FKL5565'} - {$produit.lb_produit} - commentaire : {$commentaire[$produit.sk_produit]} - qté(s) : {$quantite[$produit.sk_produit]} </strong><br />
+			{/foreach}
+			{/foreach}
+		</span>
+	</div>
+	{/if}
+
+	{if !empty($produitsajout) || !empty($produitssupp) || !empty($produitsmaj)}
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		{if !empty($produitsajout)}
+		<span style="font-family:comic sans ms,cursive"><u>Produit(s) ajouté(s) :</u> <br />
+			<br />
+			{foreach $produitsajout as $k => $produit}	
+			<strong>{$produit.sk_produit} - {$produit.lb_produit} - commentaire : {$produit.co_produit} - qté(s) : {$produit.qt_ecart} </strong><br />
+			{/foreach}
+
+		</span>
+		<br />
+		{/if}
+
+		{if !empty($produitssupp)} 
+		<span style="font-family:comic sans ms,cursive"><u>Produit(s) supprimé(s) :</u> <br />
+			<br />
+			{foreach $produitssupp as $k => $produit}	
+			<strong>{$produit.sk_produit} - {$produit.lb_produit} - qté(s) : {$produit.qt_ecart} </strong><br />
+			{/foreach}	
+		</span>
+		<br />
+		{/if}
+		{if !empty($produitsmaj)}
+		<span style="font-family:comic sans ms,cursive"><u>Produit(s) modifié(s) :</u> <br />
+			<br />
+			{foreach $produitsmaj as $k => $produit}	
+			<strong>{$produit.sk_produit} - {$produit.lb_produit} - commentaire : {$produit.co_produit} - qté(s) : {$produit.qt_ecart} </strong><br />
+			{/foreach}
+		</span>
+		{/if}
+	</div>
+	{/if}
+
+	<p><span style="font-family:comic sans ms,cursive">Cordialement.</span></p>
+
+	<p><span style="font-family:comic sans ms,cursive">Salutations distingu&eacute;es.</span></p>
+
+	<p><span style="font-family:comic sans ms,cursive">{$utilisateur.prenom} {$utilisateur.nom}</span></p>
+	<p>&nbsp;</p>
+
+	<span style="font-family:comic sans ms,cursive"><u>{$client.lb_donneur_ordre}</u><br /></span>

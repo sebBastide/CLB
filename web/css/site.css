@@ -1,0 +1,349 @@
+
+/*	coul_fond : # fefefe  8CBA10  */
+
+
+html {
+	width: 1000px;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	
+}
+
+body {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 11px; 
+	color: #111111;
+	background: url('/img/fond_defaut.jpg') repeat-x left top;
+	background-attachment: fixed;
+	background-size: 100%;
+	overflow-y: scroll;
+	padding: 0px;
+	margin: 0px;
+	height: 100%;
+}
+
+a {
+	color:gray;
+	text-decoration: underline;
+}
+
+a:hover{
+	color: midnightblue;
+	cursor:pointer;
+}
+/**** HAUT ****/
+#zone_haut {
+	padding: 2px ;
+	margin:0 auto 0 auto;
+	line-height: 0;
+}
+
+/**** BAS ****/
+#zone_bas {
+/*background: url("/img/charte/bg_degrade_transparent.png") repeat-x;*/
+	background: -webkit-linear-gradient(top, rgba(254,254,254,0.8) 0%,rgba(0,0,0,0.1) 100%);
+	background: -moz-linear-gradient(top,  rgba(254,254,254,0.8) 0%,rgba(0,0,0,0.1) 100%);
+  	background: -o-linear-gradient(top,  rgba(254,254,254,0.8) 0%,rgba(0,0,0,0.1) 100%);
+  	background: -ms-linear-gradient(top,  rgba(254,254,254,0.8) 0%,rgba(0,0,0,0.1) 100%);
+	background: linear-gradient(top,  rgba(254,254,254,0.8) 0%,rgba(0,0,0,0.1) 100%);
+	padding-top:2px;
+	clear: both;
+	z-index: 1;
+}
+.contenu {
+	padding:10px;
+/*	background: -webkit-linear-gradient(top, #fefefe 0%,rgba(254,254,254,0.8) 100%);
+	background: -moz-linear-gradient(top, #fefefe 0%,rgba(254,254,254,0.8) 100%);
+	background: -o-linear-gradient(top, #fefefe 0%,rgba(254,254,254,0.8) 100%);
+	background: -ms-linear-gradient(top, #fefefe 0%,rgba(254,254,254,0.8) 100%);
+	background: linear-gradient(top, #fefefe 0%,rgba(254,254,254,0.8) 100%);
+*/	
+background: rgba(254,254,254,0.7) ;
+	border-radius: 20px 20px 0px 0px;
+	min-height:500px;
+}
+
+/**** BLOC RECHERCHE ****/
+fieldset {
+	border: 1px dotted #000;
+}
+
+fieldset legend {
+	font-size: 14px;
+	background-color:#fefefe;
+	padding-left:10px;
+	padding-right:10px;
+	color:gray;
+	font-weight:bold;
+	
+}
+/**** FORMULAIRE ****/
+.form {
+	color:#111111
+}
+.form ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.form ol li {
+	color: #111111;
+	clear: both;
+	padding-top: 5px;
+	cursor: auto;
+	line-height: 29px
+}
+
+.form label {
+	width: 200px;
+	display:inline-block;
+	line-height: 29px;
+	vertical-align: middle;
+}
+.form.l150 label {
+	width: 150px;
+}
+
+.form input[type=text], input[type=password]
+	{
+	border-radius: 4px;
+	border: 1px solid #dadadc;
+	background: url("/img/charte/bg_input.png") repeat-x white;
+	width: 260px;
+	color: black;
+	height: 22px;
+	text-indent: 5px;
+	vertical-align: middle;
+}
+    
+.form  select
+	{
+	border-radius: 4px;
+	border: 1px solid #dadadc;
+	background: url("/img/charte/bg_input.png") repeat-x white;
+	width: 260px;
+	color: black;
+	height: 26px;
+	text-indent: 5px;
+	vertical-align: middle;
+}
+
+.form  textarea {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	border-radius: 4px;
+	border: 1px solid #dadadc;
+	width: 260px;
+	height: 50px;
+	color: black;
+	background: url("/img/charte/bg_input.png") repeat-x white;
+	vertical-align: top;
+}
+
+.form input[type=text]:hover, .form input[type=password]:hover, .form textarea:hover {
+	border: 1px solid #77BB77;
+}
+
+.form input[type=text]:focus, .form input[type=password]:focus, .form textarea:focus {
+	border: 1px solid #0000FF;
+}
+
+.form input[type=text].mot {
+	width: 150px !important;
+}
+.form input[type=text].code {
+	width: 50px !important;
+}
+.form input[type=text].fullwidth,.form textarea.fullwidth {
+	width: 100% !important;
+}
+
+.form input[type=text].date {
+	width: 100px !important;
+}
+.form input[type=text][readonly],.form select[disabled]  {
+    background:  repeat-x #D0D0D0 ;
+}
+.form input[type=checkbox],.form input[type=radio] {
+  vertical-align:middle;
+  -ms-transform: scale(1.3); /* IE */
+  -moz-transform: scale(1.3); /* FF */
+  -webkit-transform: scale(1.3); /* Safari and Chrome */
+  -o-transform: scale(1.3); /* Opera */
+  transform: scale(1.3); /* Opera */
+  margin-right: 5px;
+  margin-top: 8px;
+}
+
+/*BLOCS CHAMPS COTE A COTE*/
+.gauche {
+	width: 440px;
+	float: left; 
+	display:inline-block; 
+}
+.gauche label {
+	width: 140px;
+	line-height: 29px;
+}
+
+.droite {
+	width: 440px;
+	float: right; 
+	display:inline-block; 
+}
+
+.droite label {
+	width: 140px;
+	line-height: 29px
+}
+
+
+/**** BOUTONs ****/
+.boutton, button.ColVis_Button {
+	background-color: #f5f5f5;
+	background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+	background-repeat: repeat-x;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #a2a2a2;
+	border-image: none;
+	border-radius: 4px;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px
+		rgba(0, 0, 0, 0.05);
+	color: #333;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 11px;
+	line-height: 16px;
+	height:25px;
+	margin: 5px 15px ;
+	padding: 4px 12px;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+	vertical-align: middle;
+}
+
+.boutton:hover, button.ColVis_Button:hover {
+	background: #e6e6e6;
+}
+.bottom {margin-bottom: 5px;}
+.boutton.left{
+	float:left;
+	margin: 2px 0px 2px 10px;
+}
+
+.boutton.right{
+	float:right;
+	margin: 2px 10px 2px 0px;
+}
+.nombre {
+	text-align:right;
+}
+.textecentre {
+	text-align:center;
+}
+.separe {
+	visibility: hidden;
+	clear: both;
+}
+
+.h_5 {
+	height: 5px;
+	line-height: 5px;
+}
+
+.h_10 {
+	height: 10px;
+	line-height: 10px;
+}
+
+.h_20 {
+	height: 20px;
+	line-height: 20px;
+}
+/*DATATABLES*/
+.dataTable tbody {
+	font-size:0.9em;
+}
+
+.dataTable tbody tr td {
+	padding:3px;
+}
+.dataTables_length label {
+	width: auto;
+	float: none;
+	line-height: 29px
+}
+.dataTables_length select {
+	width: 50px;
+	float: none;
+	border:inherit;
+	background:#FFF;
+	height:auto;
+	line-height: 29px
+}
+.display th{
+	text-align:left;
+}
+
+/* MESSAGES */
+.msg {
+	display:none;
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom:5px;
+	padding:5px 5px 1px 25px;
+	border-radius: 20px 20px 0px 0px;
+	height: 20px;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #a2a2a2;
+	border-image: none;
+	border-radius: 4px;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px
+						rgba(0, 0, 0, 0.05);
+	color:#000;
+	
+}
+.msg.normal {
+	display:block;
+	background-color:#00D8D8;
+}
+.msg.warning {
+	display:block;
+	color:#000;
+	background-color:#FFAA2A;
+}
+.msg.error {
+	display:block;
+	color:#060505;
+	background-color:#FF0000;
+	font-weight:bold;
+}
+
+/**** ACCUEIL ****/
+#bloc_identification  {
+	color: #111111;
+	width: 290px;
+	padding: 15px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 2px solid #98dc63e;
+	background-image: url('/img/charte/fond_noir2.png');
+}
+#bloc_identification label,
+#bloc_identification h1,
+#bloc_identification h2,
+#bloc_identification h3,
+#bloc_identification h4,
+#bloc_identification table, 
+#bloc_identification span {
+		color: #111111;
+}
+a.nounderline:link 
+{ 
+ text-decoration:none; 
+} 

@@ -1,0 +1,101 @@
+<p><span style="font-family:comic sans ms,cursive">Bonjour,</span></p>
+
+<p><span style="font-family:comic sans ms,cursive">Veuillez trouvez ci-joint le&nbsp;bon de récupération de déchets&nbsp;{$bonrec.numbrdec}&nbsp; pour le {$bonrec.datrec }
+		{if $bonrec.jrsrec EQ "AM"} le matin {/if}
+		{if $bonrec.jrsrec EQ "PM"} l'après midi {/if}
+		{if $bonrec.jrsrec EQ "DJ"} dans la journée {/if}
+		et demandé par {$bonrec.nomdem} : </span>
+</p>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<span style="font-family:comic sans ms,cursive"><u>Patient n° {$patient.ext_patient} :</u><br />
+		<br />
+		<strong>{$patient.lb_titre} {$patient.lb_nom}</strong> </span><br />
+	<br />
+	<strong>{$patient.lb_adresse}</strong><br />
+	<strong>{$patient.lb_codepostal} {$patient.lb_ville}</strong><br />
+	<br />
+	<strong>{$patient.lb_telephone}</strong><br />
+	<br />
+
+	{if $bonrec.r_maison EQ "O"}
+	<strong>Maison : Oui</strong><br /> 
+	{/if}
+
+	{if $bonrec.r_maison EQ "N"}
+	<strong>Appartement : Oui</strong><br />
+	{/if}
+	<br />
+
+	{if $bonrec.r_rdc EQ "O"}
+	<strong>RDC : Oui</strong><br />
+	{/if}
+
+	{if $bonrec.r_rdc EQ "N"}
+	<strong>Etage : Oui</strong><br />
+	{/if}
+	<br />
+	{if $bonrec.r_ascen EQ "O"}
+	<strong>Ascenseur : Oui </strong><br />
+	{/if}
+	{if $bonrec.r_ascen EQ "N"}
+	<strong>Ascenseur : Non </strong><br />
+	{/if}
+
+	<br />
+
+	{if $bonrec.lierecaut NE ""}
+	<strong>Autres coordonnées : {$bonrec.lierecaut} </strong><br />
+	{/if}
+
+	<br />
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<span style="font-family:comic sans ms,cursive"><u>Récupération de :</u> <br />
+
+			{if $bonrec.r_dechet EQ "O"}
+			<strong>Déchets : Oui </strong><br />
+			{/if}
+			{if $bonrec.r_dechet EQ "N"}
+			<strong>Déchets : Non </strong><br />
+			{/if}
+
+			{if $bonrec.r_conso EQ "O"}
+			<strong>Consommables : Oui</strong><br />
+			{/if}
+			{if $bonrec.r_conso EQ "N"}
+			<strong>Consommables : Non</strong><br />
+			{/if}
+
+			{if $bonrec.r_medic EQ "O"}
+			<strong>Médicaments : Oui</strong><br />
+			{/if}
+			{if $bonrec.r_medic EQ "N"}
+			<strong>Médicaments : Non</strong><br />
+			{/if}
+
+		</span>
+	</div>
+	<br />
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<span style="font-family:comic sans ms,cursive"><u>Commentaire divers :</u> <br />
+			<br />
+			<strong>{$bonrec.com_div}&nbsp;</strong><br />
+			<br />
+		</span>
+	</div>
+	<br />
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<span style="font-family:comic sans ms,cursive"><u>Commentaire interne :</u> <br />
+			<br /> 
+			<strong>{$bonrec.com_int}&nbsp;</strong><br /> 
+		</span>
+	</div>
+
+	<p><span style="font-family:comic sans ms,cursive">Cordialement.</span></p>
+
+	<p><span style="font-family:comic sans ms,cursive">Salutations distingu&eacute;es.</span></p>
+
+	<p><span style="font-family:comic sans ms,cursive">{$utilisateur.prenom} {$utilisateur.nom}</span></p>
+	<p>&nbsp;</p>
+
+	<span style="font-family:comic sans ms,cursive"><u>{$client.lb_donneur_ordre}</u><br />

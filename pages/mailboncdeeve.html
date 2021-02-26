@@ -1,0 +1,28 @@
+<p><span style="font-family:comic sans ms,cursive">Bonjour,</span></p>
+
+<p><span style="font-family:comic sans ms,cursive">Changement statut du bon de commande&nbsp;{$boncde.numcde}&nbsp; : &nbsp; {$boncde.raison} le {$boncde.moddat}&nbsp</span></p>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<span style="font-family:comic sans ms,cursive"><u>Patient n° {$patient.ext_patient} :</u><br />
+	<br />
+	{if $boncde.datfinhad NE 0} Fin de HAD le {$boncde.datfinhad} - Raison : {$raison.librai}
+	<br />
+	<br />
+	 {/if}	
+	<strong>{$patient.lb_titre} {$patient.lb_nom}</strong> </span><br />
+	<br />
+	<strong>{$patient.lb_adresse}</strong><br />
+	<strong>{$patient.lb_codepostal} {$patient.lb_ville}</strong><br />
+	<br />
+	<strong>{$patient.lb_telephone}</strong><br />
+	<br />
+	<br />
+
+	<p><span style="font-family:comic sans ms,cursive">Cordialement.</span></p>
+
+	<p><span style="font-family:comic sans ms,cursive">Salutations distingu&eacute;es.</span></p>
+
+	<p><span style="font-family:comic sans ms,cursive">{$utilisateur.prenom} {$utilisateur.nom}</span></p>
+	<p>&nbsp;</p>
+
+	<span style="font-family:comic sans ms,cursive"><u>{$client.lb_donneur_ordre}</u><br />

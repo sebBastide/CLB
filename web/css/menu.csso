@@ -1,0 +1,218 @@
+/**** MENU ****/
+#zone_menu {
+	height: 40px;
+	border-top: 1px solid #8dc63e;
+	border-bottom: 1px solid #8dc63e;
+	background-image: url('/img/charte/fond_noir2.png');
+}
+
+#menu {
+	position: relative;
+	z-index: 1000;
+	height: 39px;
+	clear: both;
+	padding: 0px 30px;
+	min-width: 900px;
+}
+
+#menu>ul.left {
+	float: left;
+}
+
+#menu>ul.right {
+	float: right;
+}
+
+#menu>ul {
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+
+#menu>ul ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	background: url('/img/menu/transparent.png');
+}
+
+#menu>ul a {
+	display: block;
+	text-decoration: none;
+}
+
+#menu>ul li {
+	float: left;
+	list-style: none;
+}
+
+#menu>ul .top {
+	font-family: "Homenaje", sans-serif;
+	font-size: 17px;
+	letter-spacing: 1.5px;
+	text-decoration: none;
+	color: #fff;
+	text-transform: uppercase;
+	padding: 11px;
+	border-right: 1px solid #FFF;
+}
+
+#menu>ul>li:first-child {
+	border-left: 1px solid #FFF;
+}
+
+#menu>ul li ul {
+	position: absolute;
+}
+
+#menu>ul ul li {
+	padding: 2px;
+	clear: both;
+	font-family: "Homenaje", sans-serif;
+	font-size: 12px;
+	letter-spacing: 1.5px;
+	text-decoration: none;
+	color: #fff;
+	text-transform: uppercase;
+}
+
+#menu>ul .top.selected, .top:hover {
+	background-color: #a4a25d;
+	color: #FFFFFF;
+}
+
+#menu>ul .parent {
+	background-image: url('/img/menu/arrow-right.png');
+	background-position: 95% center;
+	background-repeat: no-repeat;
+}
+
+#menu>ul li ul ul {
+	margin: -27px 0 0 161px;
+}
+
+#menu>ul li li a {
+	padding: 5px;
+	margin: 1px;
+	color: #FFFFFF;
+	width: 147px;
+}
+
+#menu>ul li li>a:hover {
+	margin: 0px;
+	border: 1px solid #fff;
+	background-color: #a4a25d;
+}
+
+/**** MENU GAUCHE ****/
+#zone_gauche {
+	width: 200px;
+	float: left;
+	background-image: url('/img/charte/fond_noir.png');
+	border-radius: 20px 0;
+	box-shadow: 10px 10px 10px -10px #2E2E2E;
+}
+
+#menu_gauche {
+	padding: 20px 20px 20px 35px;
+}
+
+#menu_gauche ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+#menu_gauche li {
+	margin: 0px;
+	padding: 0px;
+	list-style: outside url("/img/charte/fleche_menu_gauche.png") none;
+	height: 30px;
+}
+
+#menu_gauche li.menu_gauche:hover, #menu_gauche li.menu_gauche_actif,
+	#menu_gauche li.menu_gauche_actif:hover {
+	list-style: outside url("/img/charte/fleche_menu_gauche_hover.png")
+		none;
+}
+
+#menu_gauche a {
+	display: block;
+}
+
+a.menu_gauche {
+	font-family: "Homenaje", sans-serif;
+	font-size: 17px;
+	color: #FFFFFF;
+	text-decoration: none;
+	padding: 8px 9px 8px 9px;
+	letter-spacing: 1.5px;
+	/*background-color:#A4B727;*/
+}
+
+a.menu_gauche:hover, a.menu_gauche_actif, a.menu_gauche_actif:hover {
+	font-family: "Homenaje", sans-serif;
+	font-size: 17px;
+	color: #FFFFFF;
+	text-decoration: none;
+	padding: 8px 9px 8px 9px;
+	letter-spacing: 1.5px;
+	/*background-color:#555A34;*/
+}
+
+a.ssmenu_gauche {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #FFFFFF;
+	text-decoration: none;
+	padding: 8px 9px 8px 10px;
+	background-color: #C62232;
+}
+
+a.ssmenu_gauche:hover, a.ssmenu_gauche_actif, a.ssmenu_gauche_actif:hover
+	{
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #FFFFFF;
+	text-decoration: none;
+	padding: 8px 9px 8px 10px;
+	background-color: #343434;
+}
+
+/**** MENU BAS ****/
+#menu_bas {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 20px;
+	float: right;
+}
+
+#menu_bas ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+#menu_bas li {
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	height: 30px;
+}
+
+#menu_bas a {
+	
+}
+
+a.menu_bas {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+a.menu_bas:hover, a.menu_bas_actif, a.menu_bas_actif:hover {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	text-decoration: underline;
+}

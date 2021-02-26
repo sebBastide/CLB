@@ -1,0 +1,47 @@
+<p><span style="font-family:comic sans ms,cursive">Bonjour,</span></p>
+
+<p><span style="font-family:comic sans ms,cursive">Veuillez trouvez ci-joint le&nbsp;bon de commande kit &nbsp;{$boncdekit.numcdekit}&nbsp;</span></p>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<span style="font-family:comic sans ms,cursive"><u>Patient n° {$patient.ext_patient} :</u><br />	
+	<br />
+	<strong>{$patient.lb_titre} {$patient.lb_nom}</strong> </span><br />
+	<br />
+	<strong>{$patient.lb_adresse}</strong><br />
+	<strong>{$patient.lb_codepostal} {$patient.lb_ville}</strong><br />
+	<br />
+	<strong>{$patient.lb_telephone}</strong><br />
+	<br />
+	<br />
+
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<span style="font-family:comic sans ms,cursive"><u>Kit(s) commandé(s) le {$boncdekit.datdem } pour le {$boncdekit.datliv } :</u> <br />
+			{foreach $groupes as $k => $groupe}
+				<br />
+				<strong>{$groupe.quantite} * {$groupe.hierarchie} </strong><br />
+				<br />
+				<strong>Détail du kit : </strong><br />
+				{foreach $groupe.produits as $k => $produit}	
+					<strong>{$produit.sk_produit} - {$produit.lb_produit} - composition : {$produit.co_produit} </strong><br />
+				{/foreach}
+			{/foreach}
+		</span>
+	</div>
+
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<span style="font-family:comic sans ms,cursive"><u>Produit(s) supplémentaire(s) commandé(s) le {$boncdekit.datdem } pour le {$boncdekit.datliv } :</u> <br />
+			<br />
+			{foreach $pdtsup as $k => $produit}	
+				<strong>{$produit.quantite} * {$produit.sk_produit} - {$produit.lb_produit} - composition : {$produit.co_produit} </strong><br />
+			{/foreach}
+		</span>
+	</div>
+
+	<p><span style="font-family:comic sans ms,cursive">Cordialement.</span></p>
+
+	<p><span style="font-family:comic sans ms,cursive">Salutations distingu&eacute;es.</span></p>
+
+	<p><span style="font-family:comic sans ms,cursive">{$utilisateur.prenom} {$utilisateur.nom}</span></p>
+	<p>&nbsp;</p>
+
+	<span style="font-family:comic sans ms,cursive"><u>{$client.lb_donneur_ordre}</u><br /></span>

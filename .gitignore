@@ -1,0 +1,4 @@
+*.txt
+/web/phpmyadmin
+/web/phpinfo.php
+/config
