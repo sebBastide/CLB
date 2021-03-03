@@ -136,12 +136,15 @@ class boncdesCtrl extends Controller {
 
 		// CONSTRUCTION DE LA REQUETE.
 		$fields = $this->datatable_columns($_GET);
-		$sql = "SELECT " . implode(" , ", $fields) . " FROM boncde_entete B left join patient_had P ON numpat=P.ext_patient ";
+		$select = implode(" , ", $fields);
+		$select = substr_replace($select, '', strpos($select, 'orderStatus'), 13);
+
+		$sql = "SELECT " . $select . " FROM boncde_entete B left join patient_had P ON numpat=P.ext_patient ";
 		if (!empty($wheres))
 			$sql .= " WHERE " . implode(" AND ", $wheres);
 	
 		$sql .= $this->datatable_order_offset($_GET, $fields);
-		
+
 		// EXECUTION DE LA REQUETE.
 		$elements = $this->boncde_entete->query($sql, PDO::FETCH_NUM);
 
@@ -152,6 +155,7 @@ class boncdesCtrl extends Controller {
 		$inddatenvmail = array_search('datenvmail', $fields);
 		$inddatfinhad = array_search('B.datfinhad', $fields);
 		$indstatut = array_search('B.statut', $fields);
+		$columnOrderStatus = array_search('orderStatus', $fields);
 
 		foreach ($elements as $k => $element) {
 
@@ -159,6 +163,7 @@ class boncdesCtrl extends Controller {
 			$element[$inddatliv] = datevershtml($element[$inddatliv]);
 			$element[$inddatenvmail] = datevershtml($element[$inddatenvmail]);
 			$element[$inddatfinhad] = datevershtml($element[$inddatfinhad]);
+			$element[$columnOrderStatus] = 'LivrÃ©e';
 			
 			$element [] = '<a href="#" onclick="editer(\'' . $element [$indcode] . '\');"><img src="/img/pictos/edit.gif" alt="Modifier" title="Modifier"></a>';
 			if ($element[$indstatut] == 'A') { 				
@@ -173,6 +178,7 @@ class boncdesCtrl extends Controller {
 			
 			$elements [$k] = $element;
 		}
+
 		// RENVOI DU RESULTAT
 		$output = array(
 			"draw" => $_GET ['draw'],
@@ -181,8 +187,6 @@ class boncdesCtrl extends Controller {
 			"data" => $elements
 		);
 		echo json_encode($output);
-		
-		
 	}
 
 	/**
@@ -299,7 +303,7 @@ class boncdesCtrl extends Controller {
 						foreach ($groupe['produits'] as $produit) {
 							$quantite[$produit['sk_produit']] = $produit['qt_produit'];
 							$commentaire[$produit['sk_produit']] = $produit['co_produit'];
-							$credat[$produit['sk_produit']] = $produit['credat'];///ajout date de création de la ligne produit B.OCHUDLO le 20/11/2015
+							$credat[$produit['sk_produit']] = $produit['credat'];///ajout date de crï¿½ation de la ligne produit B.OCHUDLO le 20/11/2015
 						}
 						$groupes[$k] = $groupe;
 					}
@@ -310,7 +314,7 @@ class boncdesCtrl extends Controller {
 				$this->smarty->assign('groupes', $groupes);
 				$element['quantite'] = $quantite;
 				$element['commentaire'] = $commentaire;
-				$element['credat'] = $credat;///ajout date de création de la ligne produit B.OCHUDLO le 20/11/2015
+				$element['credat'] = $credat;///ajout date de crï¿½ation de la ligne produit B.OCHUDLO le 20/11/2015
 
 				$this->zones_page($element);
 				$this->affiche('form');
@@ -406,7 +410,7 @@ class boncdesCtrl extends Controller {
 	 */
 	public function enregistrer() {
 		/*if (isset($_POST['btn_suivant'])) {
-			$this->message('Aperçu commande', 'error');
+			$this->message('Aperï¿½u commande', 'error');
 			$this->zones_page($_POST);
 			$this->affiche("form");
 			return;
@@ -469,7 +473,7 @@ class boncdesCtrl extends Controller {
 				}
 				
 				$this->message("Le bon de commande a Ã©tÃ© ajoutÃ© avec succÃ©s", "normal");
-				///B.OCHUDLO le 20/11/2015 envoi du mail aprés engregsitrement
+				///B.OCHUDLO le 20/11/2015 envoi du mail aprï¿½s engregsitrement
 				$this->envmailbcde($_POST['numcde'],true);
 			} else {
 
@@ -499,11 +503,11 @@ class boncdesCtrl extends Controller {
 					if ($quantite != 0) {
 						$commentaire = $_POST['commentaire'][$k];
 						
-						/* Modification B.OCHUDLO : On vérifie si l'enregistrement existe*/
+						/* Modification B.OCHUDLO : On vï¿½rifie si l'enregistrement existe*/
 						$count = $this->boncde_poste->queryFirst("SELECT count(*) as Nb FROM boncde_poste where sk_client=:sk_client AND sk_produit='" .$k . "' AND numcde='" . $_POST['numcde'] . "'", array('sk_client' => auth::$auth ['sk_client']));
 						echo  $count ['Nb'];
 						if ($count ['Nb']==1) {
-							///on met à jour 
+							///on met ï¿½ jour 
 							
 							$this->boncde_poste->update(array('sk_client','numcde','sk_produit'),array(auth::$auth ['sk_client'], $_POST['numcde'],$k),
 									array(
@@ -550,7 +554,7 @@ class boncdesCtrl extends Controller {
 			
 			return;
 		}
-		/*B.OCHUDLO redirection page aperçu commande*/
+		/*B.OCHUDLO redirection page aperï¿½u commande*/
 		
 		if (!isset($_POST['btn_suivant'])) {
 			unset($_POST);

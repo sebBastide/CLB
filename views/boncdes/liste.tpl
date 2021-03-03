@@ -44,6 +44,7 @@
 				<th>Date envoi mail</th>
 				<th>Heure envoi mail</th>
 				<th>Date fin HAD</th>
+				<th>Statut commande</th>
 				<th>Statut</th>
 			</tr>
 		</thead>
@@ -82,7 +83,8 @@ var table = $('#tableau_resultat').dataTable( {
 				   {name:"datenvmail", className: "textecentre"},
 				   {name:"hrsenvmail", className: "textecentre"},
 				   {name:"B.datfinhad", className: "textecentre"},
-	               {name:"B.statut" , "visible":false}
+		           {name:"orderStatus", className: "textecentre"},
+	               {name:"B.statut" , "visible":false},
 	             ],
      "ajax": "/boncdes/tableau_json",
      "serverSide": true,
@@ -99,7 +101,7 @@ var table = $('#tableau_resultat').dataTable( {
 				data = table.fnGetData(this);
 				numcde = data[1];
 				datfinhad = data[7];
-				statut = data[8];
+				statut = data[9];
 				action(numcde, datfinhad, statut);
 			}
 	});
