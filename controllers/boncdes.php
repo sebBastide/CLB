@@ -41,7 +41,7 @@ class boncdesCtrl extends Controller {
 		if ($groupes) {
 
 			foreach ($groupes as $k => $groupe) {
-				$groupe['produits'] = $this->boncde_poste->query("SELECT lb_produit, sk_produit FROM produit_had WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND sk_client=:sk_client order by lb_classement,lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
+				$groupe['produits'] = $this->boncde_poste->query("SELECT lb_produit, sk_produit, isDeleted FROM produit_had WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND sk_client=:sk_client order by lb_classement,lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
 				foreach ($groupe['produits'] as $produit) {
 					$quantite[$produit['sk_produit']] = 0;
 					$commentaire[$produit['sk_produit']] = '';
@@ -295,7 +295,7 @@ class boncdesCtrl extends Controller {
 				if ($groupes) {
 
 					foreach ($groupes as $k => $groupe) {
-						$groupe['produits'] = $this->boncde_poste->query("SELECT P.lb_produit, P.sk_produit, B.qt_produit, B.co_produit,DATE_FORMAT( B.credat, '%d/%m/%y' ) AS credat FROM produit_had P LEFT JOIN boncde_poste B ON P.sk_produit = B.sk_produit and numcde='" . $numcde . "' WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND P.sk_client=:sk_client order by P.lb_classement,P.lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
+						$groupe['produits'] = $this->boncde_poste->query("SELECT P.lb_produit, P.sk_produit, P.isDeleted, B.qt_produit, B.co_produit,DATE_FORMAT( B.credat, '%d/%m/%y' ) AS credat FROM produit_had P LEFT JOIN boncde_poste B ON P.sk_produit = B.sk_produit and numcde='" . $numcde . "' WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND P.sk_client=:sk_client order by P.lb_classement,P.lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
 						foreach ($groupe['produits'] as $produit) {
 							$quantite[$produit['sk_produit']] = $produit['qt_produit'];
 							$commentaire[$produit['sk_produit']] = $produit['co_produit'];
@@ -370,9 +370,8 @@ class boncdesCtrl extends Controller {
 				. "from produit_had where sk_client=:sk_client order by lb_classement ", array('sk_client' => auth::$auth ['sk_client']));
 
 		if ($groupes) {
-
 			foreach ($groupes as $k => $groupe) {
-				$groupe['produits'] = $this->boncde_poste->query("SELECT lb_produit, sk_produit FROM produit_had WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND sk_client=:sk_client order by lb_classement,lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
+				$groupe['produits'] = $this->boncde_poste->query("SELECT lb_produit, sk_produit, isDeleted FROM produit_had WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND sk_client=:sk_client order by lb_classement,lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
 				foreach ($groupe['produits'] as $produit) {
 					$quantite[$produit['sk_produit']] = 0;
 					$commentaire[$produit['sk_produit']] = '';
@@ -386,14 +385,11 @@ class boncdesCtrl extends Controller {
 		/*B.OCHUDLO le 23/11/2015 On charge les infos patients*/
 		if (isset($_GET['numpat'])) {
 			$patient_had = $this->patient_had->find('ext_patient', $_GET['numpat']);			
-			$element['numpat']=$_GET['numpat'];	
-				
-			}			
-			else {
-				$element['numpat'] = "";	
-			}			
-		
-		
+			$element['numpat']=$_GET['numpat'];
+        } else {
+            $element['numpat'] = "";
+        }
+
 		$this->smarty->assign('groupes', $groupes);
 		$element['quantite'] = $quantite;
 		$element['commentaire'] = $commentaire;
@@ -548,19 +544,11 @@ class boncdesCtrl extends Controller {
 
 		if (isset($_POST['btn_retour'])) {
 			$this->zones_page($_POST);
-			foreach ($_POST['quantite'] as $k => $quantite) {
-				if ($quantite != 0) {
-					$commentaire = $_POST['commentaire'][$k];
-			
-				}			
-			}
-				
 			$this->affiche("form");
 			
 			return;
 		}
 		/*B.OCHUDLO redirection page apercu commande*/
-		
 		if (!isset($_POST['btn_suivant'])) {
 			unset($_POST);
 			$this->redirect('accueil');
@@ -569,18 +557,10 @@ class boncdesCtrl extends Controller {
 
 		if (empty($hide_numcde)) {
 			$this->zones_page($_POST);
-			foreach ($_POST['quantite'] as $k => $quantite) {
-				if ($quantite != 0) {
-					$commentaire = $_POST['commentaire'][$k];
-		
-				}
-		
-			}
-			
 			$this->affiche("form");
+
 			return;
-			
-		}else{
+		} else {
 			$this->redirect($_SESSION['page_prec']);
 		}
 	}
@@ -642,7 +622,7 @@ class boncdesCtrl extends Controller {
 					print_r($groupes);
 						foreach ($groupes as $k => $groupe) {
 
-							$groupe['produits'] = $this->boncde_poste->query("SELECT P.lb_produit, P.sk_produit, B.qt_produit, B.co_produit FROM boncde_poste B LEFT JOIN produit_had P ON P.sk_produit = B.sk_produit and numcde='" . $numcde . "' WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND P.sk_client=:sk_client order by P.lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
+							$groupe['produits'] = $this->boncde_poste->query("SELECT P.lb_produit, P.sk_produit, P.isDeleted, B.qt_produit, B.co_produit FROM boncde_poste B LEFT JOIN produit_had P ON P.sk_produit = B.sk_produit and numcde='" . $numcde . "' WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND P.sk_client=:sk_client order by P.lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
 
 							foreach ($groupe['produits'] as $produit) {
 								$quantite[$produit['sk_produit']] = $produit['qt_produit'];
@@ -695,7 +675,7 @@ class boncdesCtrl extends Controller {
 
 							foreach ($groupes as $k => $groupe) {
 
-								$groupe['produits'] = $this->boncde_poste->query("SELECT P.lb_produit, P.sk_produit, B.qt_produit, B.co_produit FROM boncde_poste B LEFT JOIN produit_had P ON P.sk_produit = B.sk_produit and numcde='" . $numcde . "' WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND P.sk_client=:sk_client order by P.lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
+								$groupe['produits'] = $this->boncde_poste->query("SELECT P.lb_produit, P.sk_produit, P.isDeleted, B.qt_produit, B.co_produit FROM boncde_poste B LEFT JOIN produit_had P ON P.sk_produit = B.sk_produit and numcde='" . $numcde . "' WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND P.sk_client=:sk_client order by P.lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
 
 								foreach ($groupe['produits'] as $produit) {
 									$quantite[$produit['sk_produit']] = $produit['qt_produit'];
@@ -806,7 +786,7 @@ class boncdesCtrl extends Controller {
 				if ($groupes) {
 
 					foreach ($groupes as $k => $groupe) {
-						$groupe['produits'] = $this->boncde_poste->query("SELECT P.lb_produit, P.sk_produit, B.qt_produit, B.co_produit FROM boncde_poste B LEFT JOIN produit_had P ON P.sk_produit = B.sk_produit and numcde='" . $numcde . "' WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND P.sk_client=:sk_client order by P.lb_classement,P.lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
+						$groupe['produits'] = $this->boncde_poste->query("SELECT P.lb_produit, P.sk_produit, P.isDeleted, B.qt_produit, B.co_produit FROM boncde_poste B LEFT JOIN produit_had P ON P.sk_produit = B.sk_produit and numcde='" . $numcde . "' WHERE lb_hierachie='" . $groupe['lb_hierachie'] . "' AND P.sk_client=:sk_client order by P.lb_classement,P.lb_produit ", array('sk_client' => auth::$auth ['sk_client']));
 
 						foreach ($groupe['produits'] as $produit) {
 							$quantite[$produit['sk_produit']] = $produit['qt_produit'];

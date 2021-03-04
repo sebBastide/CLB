@@ -1,0 +1,1 @@
+ALTER TABLE produit_had DROP COLUMN isDeleted;

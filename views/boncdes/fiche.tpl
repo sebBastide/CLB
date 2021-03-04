@@ -85,30 +85,55 @@
 		
 							<tbody >
 								{foreach $groupes as $k => $groupe}
-									{if count(array_intersect(array_column($groupe.produits, 'sk_produit'), array_keys(array_filter($quantite)))) > 0}
-										<tr id="tr_{$k}" class="lig1">
-											<td> <h4>{$groupe.lb_hierachie} </h4> </td>
+									{if !isset($smarty.post.btn_suivant) || count(array_intersect(array_column($groupe.produits, 'sk_produit'), array_keys(array_filter($quantite)))) > 0}
+										{assign var="display" value=0}
+										{foreach $groupe.produits as $key => $product}
+											{if intval($product.isDeleted) === 1 && isset($quantite[{$product.sk_produit}]) && $quantite[{$product.sk_produit}] > 0}
+												{assign var="display" value=intval($display || 1)}
+											{/if}
+
+											{if intval($product.isDeleted) === 1 && (!isset($quantite[{$product.sk_produit}]) || $quantite[{$product.sk_produit}] === 0)}
+												{assign var="display" value=intval($display || 0)}
+											{/if}
+
+											{if intval($product.isDeleted) === 0}
+												{assign var="display" value=intval($display || 1)}
+											{/if}
+										{/foreach}
+
+										<tr id="tr_{$k}" class="lig1" {if $display === 0}hidden{/if}>
+											<td>
+												<h4>{$groupe.lb_hierachie}</h4>
+											</td>
 										</tr>
 
 										{foreach $groupe.produits as $k => $produit}
 											{if isset($smarty.post.btn_suivant)}
-												{if {$quantite[$produit.sk_produit]}>0 }
-												 <tr>
+												{if isset($quantite[$produit.sk_produit]) && $quantite[$produit.sk_produit] > 0}
+													<tr>
 												{else}
 													<tr style="display:none;">
 												{/if}
 											{else}
-												<tr>
+												{if intval($produit.isDeleted) === 1 && (!isset($quantite[$produit.sk_produit]) || !$quantite[$produit.sk_produit] > 0)}
+													<tr style="display:none;">
+												{else}
+													<tr>
+												{/if}
 											{/if}
 												<td style="width:360px;">{$produit.lb_produit}</td>
-													<td style="width:306px;"><input name="commentaire[{$produit.sk_produit}]" class="sk_produit" type="text" value="{$commentaire[$produit.sk_produit]}" style="width:300px " tabindex="-1" {if $element.datfinhad NE 0} readonly {/if}/></td>
-													<td style="width:86px;"> <b>{if $produit.sk_produit >30 || $produit.sk_produit <1  }
-																				{$produit.sk_produit|replace:'FKL55651':'FKL5565'|replace:'FKL55652':'FKL5565'|replace:'FKL33101':'FKL3310'|replace:'FKL33102':'FKL3310'|replace:'FKL33103':'FKL3310'}
-																				{/if}</b></td>
-
-													<td style="width:82px "><input name="quantite[{$produit.sk_produit}]" class="sk_produit {if $element.datfinhad EQ 0} spinner{/if}" type="text" value="{$quantite[$produit.sk_produit]}" style="width:50px " tabindex="-1" {if $element.datfinhad NE 0} readonly {/if} /></td>
+													<td style="width:306px;"><input name="commentaire[{$produit.sk_produit}]" class="sk_produit" type="text" value="{if isset($commentaire[$produit.sk_produit])}{$commentaire[$produit.sk_produit]}{/if}" style="width:300px " tabindex="-1" {if $element.datfinhad NE 0} readonly {/if}/></td>
+													<td style="width:86px;">
+														<b>
+															{if $produit.sk_produit > 30 || $produit.sk_produit < 1}
+																{$produit.sk_produit|replace:'FKL55651':'FKL5565'|replace:'FKL55652':'FKL5565'|replace:'FKL33101':'FKL3310'|replace:'FKL33102':'FKL3310'|replace:'FKL33103':'FKL3310'}
+															{/if}
+														</b>
+													</td>
+													<td style="width:82px">
+														<input name="quantite[{$produit.sk_produit}]" class="sk_produit {if $element.datfinhad EQ 0 && intval($produit.isDeleted) === 0} spinner{/if}" type="text" value="{if isset($quantite[$produit.sk_produit])}{$quantite[$produit.sk_produit]}{/if}" style="width:50px " tabindex="-1" {if $element.datfinhad NE 0 || intval($produit.isDeleted) === 1} readonly {/if} />
+													</td>
 													<td style="width:50px ">{if isset($produit.credat)}{$produit.credat}{/if}</td>
-
 											</tr>
 										{/foreach}
 									{/if}
