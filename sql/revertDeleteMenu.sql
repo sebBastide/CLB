@@ -1,0 +1,2 @@
+INSERT INTO MENUS (idparent, ordre, menu, page, titre, img, grputi, statut, creuti, credat, creheu, moduti, moddat, modheu) VALUES (0, 70, 'BONS COMMANDES KIT', '', '', '', 'U', 'A', '', '0000-00-00', '00:00:00', '', '0000-00-00', '00:00:00');
+INSERT INTO MENUS (idparent, ordre, menu, page, titre, img, grputi, statut, creuti, credat, creheu, moduti, moddat, modheu) VALUES (0, 60, 'BONS COMMANDES KIT', '', '', '', 'A', 'A', '', '0000-00-00', '00:00:00', '', '0000-00-00', '00:00:00');
