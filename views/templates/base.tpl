@@ -67,27 +67,27 @@
 </body>
 {literal}
 <script type="text/javascript" >
-(function($){
-$('#menu > ul').superfish({
-	pathClass : 'overideThisToUse',
-	delay : 200,
-	animation : {
-		height : 'show'
-	},
-	speed : 'normal',
-	autoArrows : false,
-	dropShadows : false,
-	disableHI : false, /* set to true to disable hoverIntent detection */
-	onInit : function() {
-	},
-	onBeforeShow : function() {
-	},
-	onShow : function() {
-	},
-	onHide : function() {
-	}
-});
-$('#menu > ul').css('display', 'block');
-})(jQuery)
+	(function($){
+		$('#menu > ul').superfish({
+			pathClass : 'overideThisToUse',
+			delay : 200,
+			animation : {
+				height : 'show'
+			},
+			speed : 'normal',
+			autoArrows : false,
+			dropShadows : false,
+			disableHI : false, /* set to true to disable hoverIntent detection */
+			onInit : function() {
+			},
+			onBeforeShow : function() {
+			},
+			onShow : function() {
+			},
+			onHide : function() {
+			}
+		});
+		$('#menu > ul').css('display', 'block');
+	})(jQuery)
 </script>
 {/literal}</html>

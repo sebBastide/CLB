@@ -299,7 +299,7 @@ class boncdesCtrl extends Controller {
 						foreach ($groupe['produits'] as $produit) {
 							$quantite[$produit['sk_produit']] = $produit['qt_produit'];
 							$commentaire[$produit['sk_produit']] = $produit['co_produit'];
-							$credat[$produit['sk_produit']] = $produit['credat'];///ajout date de création de la ligne produit B.OCHUDLO le 20/11/2015
+							$credat[$produit['sk_produit']] = $produit['credat'];///ajout date de crï¿½ation de la ligne produit B.OCHUDLO le 20/11/2015
 						}
 						$groupes[$k] = $groupe;
 					}
@@ -310,7 +310,11 @@ class boncdesCtrl extends Controller {
 				$this->smarty->assign('groupes', $groupes);
 				$element['quantite'] = $quantite;
 				$element['commentaire'] = $commentaire;
-				$element['credat'] = $credat;///ajout date de création de la ligne produit B.OCHUDLO le 20/11/2015
+				$element['credat'] = $credat;///ajout date de crï¿½ation de la ligne produit B.OCHUDLO le 20/11/2015
+
+                if (isset($_GET['update']) && $_GET['update'] === '1') {
+                    $element['datliv'] = '';
+                }
 
 				$this->zones_page($element);
 				$this->affiche('form');
@@ -406,7 +410,7 @@ class boncdesCtrl extends Controller {
 	 */
 	public function enregistrer() {
 		/*if (isset($_POST['btn_suivant'])) {
-			$this->message('Aperçu commande', 'error');
+			$this->message('Aperï¿½u commande', 'error');
 			$this->zones_page($_POST);
 			$this->affiche("form");
 			return;
@@ -469,7 +473,7 @@ class boncdesCtrl extends Controller {
 				}
 				
 				$this->message("Le bon de commande a Ã©tÃ© ajoutÃ© avec succÃ©s", "normal");
-				///B.OCHUDLO le 20/11/2015 envoi du mail aprés engregsitrement
+				///B.OCHUDLO le 20/11/2015 envoi du mail aprï¿½s engregsitrement
 				$this->envmailbcde($_POST['numcde'],true);
 			} else {
 
@@ -499,11 +503,11 @@ class boncdesCtrl extends Controller {
 					if ($quantite != 0) {
 						$commentaire = $_POST['commentaire'][$k];
 						
-						/* Modification B.OCHUDLO : On vérifie si l'enregistrement existe*/
+						/* Modification B.OCHUDLO : On vï¿½rifie si l'enregistrement existe*/
 						$count = $this->boncde_poste->queryFirst("SELECT count(*) as Nb FROM boncde_poste where sk_client=:sk_client AND sk_produit='" .$k . "' AND numcde='" . $_POST['numcde'] . "'", array('sk_client' => auth::$auth ['sk_client']));
 						echo  $count ['Nb'];
 						if ($count ['Nb']==1) {
-							///on met à jour 
+							///on met ï¿½ jour 
 							
 							$this->boncde_poste->update(array('sk_client','numcde','sk_produit'),array(auth::$auth ['sk_client'], $_POST['numcde'],$k),
 									array(
@@ -550,7 +554,7 @@ class boncdesCtrl extends Controller {
 			
 			return;
 		}
-		/*B.OCHUDLO redirection page aperçu commande*/
+		/*B.OCHUDLO redirection page aperï¿½u commande*/
 		
 		if (!isset($_POST['btn_suivant'])) {
 			unset($_POST);

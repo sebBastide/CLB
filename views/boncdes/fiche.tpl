@@ -157,12 +157,10 @@
 				$('#patient_lb_telephone').val(ui.item.lb_telephone);
 				$('#patient_lb_nbCommande').val(ui.item.nbCommande);
 				<!-- S.SAURY le 10/05/2016 : verification de la présence d'un bon de commande chez le patient selectionné-->
-				if (ui.item.nbCommande >= 1)
-				{
-					var answer = confirm("Voulez vous charger le dernier bon de commande du patient " + ui.item.lb_nom + " ?" );					
-					if (answer)
-					{
-						window.location.href='/boncdes/modifier/'+ui.item.numcde;
+				if (ui.item.nbCommande >= 1) {
+					var answer = confirm("Voulez vous charger le dernier bon de commande du patient " + ui.item.lb_nom + " ?" );
+					if (answer) {
+						window.location.href='/boncdes/modifier/'+ui.item.numcde+'?update=1';
 					}
 				}				
 			}			

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2021-02-25 01:58:55
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2021-03-04 06:11:43
          compiled from "/var/www/html/clb/views/templates/base.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1504836861603774df374576-28378309%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '3649e2efddd6b8b30e27cd07ece3037d6a569472' => 
     array (
       0 => '/var/www/html/clb/views/templates/base.tpl',
-      1 => 1614089511,
+      1 => 1614867098,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.21-dev',
+  'unifunc' => 'content_603774df3e6ba1_28491553',
   'variables' => 
   array (
     'titrepage' => 0,
@@ -31,8 +33,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'debugs' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.21-dev',
-  'unifunc' => 'content_603774df3e6ba1_28491553',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_603774df3e6ba1_28491553')) {function content_603774df3e6ba1_28491553($_smarty_tpl) {?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -126,28 +126,28 @@ $_smarty_tpl->tpl_vars['js1']->_loop = true;
 
 <?php echo '<script'; ?>
  type="text/javascript" >
-(function($){
-$('#menu > ul').superfish({
-	pathClass : 'overideThisToUse',
-	delay : 200,
-	animation : {
-		height : 'show'
-	},
-	speed : 'normal',
-	autoArrows : false,
-	dropShadows : false,
-	disableHI : false, /* set to true to disable hoverIntent detection */
-	onInit : function() {
-	},
-	onBeforeShow : function() {
-	},
-	onShow : function() {
-	},
-	onHide : function() {
-	}
-});
-$('#menu > ul').css('display', 'block');
-})(jQuery)
+	(function($){
+		$('#menu > ul').superfish({
+			pathClass : 'overideThisToUse',
+			delay : 200,
+			animation : {
+				height : 'show'
+			},
+			speed : 'normal',
+			autoArrows : false,
+			dropShadows : false,
+			disableHI : false, /* set to true to disable hoverIntent detection */
+			onInit : function() {
+			},
+			onBeforeShow : function() {
+			},
+			onShow : function() {
+			},
+			onHide : function() {
+			}
+		});
+		$('#menu > ul').css('display', 'block');
+	})(jQuery)
 <?php echo '</script'; ?>
 >
 </html><?php }} ?>
