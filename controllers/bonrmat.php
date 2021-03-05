@@ -495,12 +495,12 @@ class bonrmatCtrl extends Controller {
 				$_POST['arecup']=array(); 
 			}
 			
-			$_POST ['r_materiel'] = (isset($_POST ['r_materiel']) && $_POST ['r_materiel'] == 'on') ? 'O' : 'N';
-			$_POST ['r_dossoins'] = (isset($_POST ['r_dossoins']) && $_POST ['r_dossoins'] == 'on' ) ? 'O' : 'N';
-			$_POST ['r_malchimio'] = (isset($_POST ['r_malchimio']) && $_POST ['r_malchimio'] == 'on' ) ? 'O' : 'N';
-			$_POST ['r_conso'] = (isset($_POST ['r_conso']) && $_POST ['r_conso'] == 'on' ) ? 'O' : 'N';
-			$_POST ['r_medic'] = (isset($_POST ['r_medic']) && $_POST ['r_medic'] == 'on' ) ? 'O' : 'N';
-			$_POST ['r_dechet'] = (isset($_POST ['r_dechet']) && $_POST ['r_dechet'] == 'on' ) ? 'O' : 'N';
+			$_POST ['r_materiel'] = 'O';
+			$_POST ['r_dossoins'] = 'N';
+			$_POST ['r_malchimio'] = 'N';
+			$_POST ['r_conso'] = 'N';
+			$_POST ['r_medic'] = 'N';
+			$_POST ['r_dechet'] = 'N';
 			
 			$_POST ['jrsrec'] = isset($_POST ['jrsrec']) ?  $_POST ['jrsrec'] : 'DJ' ;
 			

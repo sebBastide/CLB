@@ -29,19 +29,7 @@
 							</select>
 							<label style="margin-left:20px; width:125px">Passage SAD le</label> <input type="text" name="passsad" id="passsad" class="date" maxlength="50" value="{$element.passsad}" {if $element.hide_datfinhad NE 0} readonly {/if}/>
 						</li>
-						
-						<div class="h_5 separe"></div>						
-						<fieldset>
-							<legend> Demande de récupération de matériel / déchet</legend>
-								<li>
-									<input type="checkbox" name="r_materiel"  id="r_materiel" {if $element.r_materiel EQ "O"} checked {/if} {if $element.hide_datfinhad NE 0} disabled {/if}/>  <label style="width:100px" >Matériels</label> 
-									<input type="checkbox" name="r_dossoins"  id="r_dossoins" {if $element.r_dossoins EQ "O"} checked {/if} {if $element.hide_datfinhad NE 0} disabled {/if}/> <label style="width:120px" >Dossier de soins</label> 
-									<input type="checkbox" name="r_malchimio" id="r_malchimio" {if $element.r_malchimio EQ "O"} checked {/if} {if $element.hide_datfinhad NE 0} disabled {/if}/> <label style="width:150px" >Malette chimiothèrapie</label> 
-									<input type="checkbox" name="r_conso"     id="r_conso" {if $element.r_conso EQ "O"} checked {/if} {if $element.hide_datfinhad NE 0} disabled {/if}/> <label style="width:120px" >Consommables</label> 
-									<input type="checkbox" name="r_medic"     id="r_medic" {if $element.r_medic EQ "O"} checked {/if} {if $element.hide_datfinhad NE 0} disabled {/if}/> <label style="width:120px" >Médicaments</label> 
-									<input type="checkbox" name="r_dechet"     id="r_dechet" {if $element.r_dechet EQ "O"} checked {/if} {if $element.hide_datfinhad NE 0} disabled {/if}/> <label style="width:100px" >Déchets</label> 
-								</li>
-						</fieldset>
+
 						<div class="h_5 separe"></div>
 						<label style="width:125px">A effectuer le</label> <input type="text" name="datrec" id="datrec" class="date" maxlength="50" value="{$element.datrec}" {if $element.hide_datfinhad NE 0} readonly {/if}/>
 							<input type="radio" style="margin-left:75px" name="jrsrec" id="jrsrec1" value="AM" {if $element.jrsrec EQ "AM"} checked {/if}{if $element.hide_datfinhad NE 0} disabled {/if}><label for="jrsrec1" style="width:auto;">Matin &nbsp;</label>
@@ -50,7 +38,7 @@
 						</li>
 						<div class="h_5 separe"></div>	
 						<fieldset>
-							<legend> Patient n° {$patient_had.ext_patient} - né le {$patient_had.dt_naissance} </legend>
+							<legend> Patient n° {$patient_had.ext_patient} {if !empty($patient_had.dt_naissance)}- né le {$patient_had.dt_naissance}{/if}</legend>
 							<div class="gauche" style="width:450px" > 
 								<li>
 									<input  type="hidden" class="mot" name="numpat" id="numpat" value="{$element.numpat}"/>
