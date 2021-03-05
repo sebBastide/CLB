@@ -346,4 +346,8 @@ fieldset legend {
 a.nounderline:link 
 { 
  text-decoration:none; 
-} 
+}
+
+.clickable > tbody > tr {
+	cursor: pointer;
+}

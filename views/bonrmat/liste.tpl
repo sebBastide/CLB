@@ -30,7 +30,7 @@
 
 	</fieldset>
 
-	<table id="tableau_resultat" class="display" style="color: black;">
+	<table id="tableau_resultat" class="display clickable" style="color: black;">
 		<thead>
 			<tr>
 				<th>Donneur d'ordre</th>
@@ -85,18 +85,13 @@ var table = $('#tableau_resultat').dataTable( {
    	 "stateSave":true       	 
 });	
 $('#tableau_resultat tbody').on('click', 'tr', function () {
-			if ($(this).hasClass('selected')) {
-				$(this).removeClass('selected');
-			}
-			else {
-				table.$('tr.selected').removeClass('selected');
-				$(this).addClass('selected');
-				data = table.fnGetData(this);
-				numbrmat =  data[1];
-				datfinhad = data[7];
-				statut = data[8];
-				action(numbrmat, datfinhad, statut);
-			}
+	table.$('tr.selected').removeClass('selected');
+	$(this).addClass('selected');
+	data = table.fnGetData(this);
+	numbrmat =  data[1];
+	datfinhad = data[7];
+	statut = data[8];
+	action(numbrmat, datfinhad, statut);
 });
 function activer(numbrmat){
 	//appel suppression avec confirmation
