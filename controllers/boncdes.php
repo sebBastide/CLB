@@ -349,8 +349,9 @@ class boncdesCtrl extends Controller {
 		$this->smarty->assign('groupes', $_SESSION['groupes']);
 		$this->smarty->assign('quantite', $element['quantite']);
 		$this->smarty->assign('commentaire', $element['commentaire']);
-				
-
+		if (isset($element['printOrder'])) {
+            $this->smarty->assign('printOrder', $element['printOrder']);
+        }
 	}
 
 	/**
@@ -409,14 +410,9 @@ class boncdesCtrl extends Controller {
 	 * *********************************************
 	 */
 	public function enregistrer() {
-		/*if (isset($_POST['btn_suivant'])) {
-			$this->message('Aper�u commande', 'error');
-			$this->zones_page($_POST);
-			$this->affiche("form");
-			return;
-		}*/
-		if (isset($_POST['btn_enregistrer'])) {
+        $save = isset($_POST['btn_imprimer_enregistrer']) || isset($_POST['btn_enregistrer']);
 
+		if ($save) {
 			$hide_numcde = $_POST ['hide_numcde'];
 			$numcde = $_POST ['numcde'];
 
@@ -472,9 +468,7 @@ class boncdesCtrl extends Controller {
 					}
 				}
 				
-				$this->message("Le bon de commande a été ajouté avec succés", "normal");
-				///B.OCHUDLO le 20/11/2015 envoi du mail apr�s engregsitrement
-				$this->envmailbcde($_POST['numcde'],true);
+				$this->message("Le bon de commande a été ajouté avec succès", "normal");
 			} else {
 
 				// UPDATE
@@ -527,20 +521,31 @@ class boncdesCtrl extends Controller {
 						}
 					}
 
-                                        if (($quantite == 0) && ($_POST['commentaire'][$k]!=''))
-                                        {
-                                                $this->message('Vous devez entrer une quantite','error');
-                                                $this->zones_page($_POST);
-                                                $this->affiche("form");
-                                                return;
-                                        }
+                    if (($quantite == 0) && ($_POST['commentaire'][$k]!=''))
+                    {
+                            $this->message('Vous devez entrer une quantite','error');
+                            $this->zones_page($_POST);
+                            $this->affiche("form");
+                            return;
+                    }
 				}
-				$this->envmailbcde($_POST['numcde'],true);
-				$this->message("Le bon de commande a été modifié avec succés", "normal");
+				$this->message("Le bon de commande a été modifié avec succès", "normal");
 			}
+            $this->mailbcde($_POST['numcde']);
 		}
 
-		
+        if (isset($_POST['btn_imprimer_enregistrer']) && isset($_POST['numcde'])) {
+            $_POST['printOrder'] = $_POST['numcde'];
+            $this->zones_page($_POST);
+            $this->affiche("form");
+
+            return;
+        }
+
+        if ($save) {
+            $this->redirect($_SESSION['page_prec']);
+        }
+
 		if (isset($_POST['btn_retour'])) {
 			$this->zones_page($_POST);
 			foreach ($_POST['quantite'] as $k => $quantite) {
@@ -554,13 +559,14 @@ class boncdesCtrl extends Controller {
 			
 			return;
 		}
-		/*B.OCHUDLO redirection page aper�u commande*/
+		/*B.OCHUDLO redirection page apercu commande*/
 		
 		if (!isset($_POST['btn_suivant'])) {
 			unset($_POST);
 			$this->redirect('accueil');
 			return;
 		}
+
 		if (empty($hide_numcde)) {
 			$this->zones_page($_POST);
 			foreach ($_POST['quantite'] as $k => $quantite) {
@@ -589,9 +595,7 @@ class boncdesCtrl extends Controller {
 		echo json_encode($data);
 		
 	}
-	
-	
-	
+
 	public function envmailbcde($numcde = '*', $retour = true) {
 		$this->mailbcde($numcde, $retour);
 		$this->redirect($_SESSION['page_prec']);

@@ -4,6 +4,10 @@
 	
 	<input type="hidden" name="hide_numcde" value="{$element.hide_numcde}" />
 	<input type="hidden" name="numcde" value="{$element.numcde}" />
+
+	{if isset($printOrder)}
+		<input type="hidden" id="print-numcde" value="{$printOrder}" />
+	{/if}
 	<div id="tabs" class="form" style="height:900px">
 		<ul>
 			<li><a href="#tabs-1">Bon de commande N° {$element.numcde}</a></li>			
@@ -123,23 +127,39 @@
 	</div>
 	{if isset($smarty.post.btn_suivant)}
 		<span {if $element.datfinhad NE 0} hidden {/if}>
-		<input name="btn_retour"  type="submit" class="boutton right" value="Retour" />
+			<input name="btn_retour"  type="submit" class="boutton right" value="Retour" />
+		</span>
+		<span {if $element.datfinhad NE 0} hidden {/if}>
+			<input name="btn_imprimer_enregistrer"  type="submit" class="boutton right" value="Enregistrer et imprimer" />
+		</span>
+		<span {if $element.datfinhad NE 0} hidden {/if}>
+			<input name="btn_enregistrer"  type="submit" class="boutton right" value="Enregistrer" />
 		</span>
 	{else}
-	<span {if $element.datfinhad NE 0} hidden {/if}>
-		<input name="btn_suivant"  type="submit" class="boutton right" value="APERCU" />
+		<span {if $element.datfinhad NE 0} hidden {/if}>
+			<input name="btn_suivant"  type="submit" class="boutton right" value="Aperçu" />
 		</span>
 	{/if}
-	<span {if $element.datfinhad NE 0} hidden {/if}>
-	<input name="btn_enregistrer"  type="submit" class="boutton right" value="ENREGISTRER" />
-	</span>
-	<input name="btn_annuler" type="submit" class="boutton left"  value="FERMER"  />
+	<input name="btn_annuler" type="submit" class="boutton left"  value="Fermer"  />
 	<div class="h_20 separe"></div>
 	
 </form>
 
 {literal}
 	<script>
+		$(document).ready(function() {
+			var printOrder = $('#print-numcde').val();
+			if (printOrder !== undefined) {
+				// Only works on IE
+				imprimer(printOrder);
+				window.location.href='/boncdes/liste';
+			}
+		});
+
+		function imprimer(numcde) {
+			fenetre("/boncdes/imprimer/" + numcde, 1000, 800);
+		}
+
 		$('.spinner').spinner({min:0});
 
 		$('#tabs').tabs({heightStyle: "auto", 
