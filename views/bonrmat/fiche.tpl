@@ -56,7 +56,7 @@
 							<div class="droite" style="width:430px" > 
 								<fieldset style="height:100px;">
 									<legend>Autres coordonnées</legend>	
-									<li> <textarea name="lierecaut" id="lierecaut" maxlength="500" style="height:70px; width:400px" {if $element.hide_datfinhad NE 0} readonly {/if}>{$element.lierecaut}</textarea></li>	
+									<li> <textarea name="lierecaut" id="lierecaut" maxlength="500" style="height:70px; width:400px" {if $element.hide_datfinhad NE 0} readonly {/if}>{if trim($element.lierecaut) NE ''}{$element.lierecaut}{else}{$patient_had.other_coordinates}&#13;&#10;{$patient_had.contact}{/if}</textarea></li>
 								</fieldset>
 							</div>
 							

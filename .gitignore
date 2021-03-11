@@ -1,5 +1,6 @@
 *.txt
 /web/phpmyadmin
 /web/phpinfo.php
-/config
-/web/templates_c
+/config/
+/web/templates_c/
+/.idea/

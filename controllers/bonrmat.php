@@ -474,8 +474,6 @@ class bonrmatCtrl extends Controller {
 		
 		if (isset($_POST['btn_enregistrer'])) {
 			$verifCasesAcocher=0;
-			$toto = 0;
-			$tata = 0;
 			if (isset($_POST['arecup'])) { 
 				foreach($_POST['arecup'] as $k=>$arecup){
 					if(isset($_POST ['arecup'][$k]))
@@ -483,15 +481,13 @@ class bonrmatCtrl extends Controller {
 						//$_POST ['arecup'][$k] = (isset($arecup) && $arecup == 'on') ? 1 : 0;
 						$_POST ['arecup'][$k] = 1;
 						$verifCasesAcocher=1;
-						$toto = $toto+1;
 					}
 					else
 					{
 						$_POST ['arecup'][$k] = 0;
-						$tata = $tata + 1 ;
 					}					
 				}
-			}else{
+			} else {
 				$_POST['arecup']=array(); 
 			}
 			
