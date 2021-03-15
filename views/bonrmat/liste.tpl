@@ -41,6 +41,8 @@
 				<th>Date envoi mail</th>
 				<th>Heure envoi mail</th>
 				<th>Date fin HAD</th>
+				<th>Statut commande</th>
+				<th>Date du statut</th>
 				<th>Statut</th>
 			</tr>
 		</thead>
@@ -53,36 +55,37 @@ var autreact = false;
 var table = $('#tableau_resultat').dataTable( {
     "autoWidth" : true,
     "processing": true,
-    
     "scrollY": "400px",
-     "scrollCollapse": true,
+	"scrollCollapse": true,
  	"dom": 'C<"clear">RtiS',
-    "deferRender":true,
+    "deferRender": true,
     "scroller": {
-          "loadingIndicator": true
-      },
-     "colReorder": {
-          "fixedColumns": 1 ,      //colonnes non deplacables a droite
-          "fixedColumnsRight": 3  //colonnes non deplacables a droite
-                },
-     "colVis": {
-                    exclude: [0, 1, 8, 9, 10]
-                },
+		"loadingIndicator": true
+	},
+	"colReorder": {
+		"fixedColumns": 1 ,      //colonnes non deplacables a droite
+		"fixedColumnsRight": 3  //colonnes non deplacables a droite
+	},
+	"colVis": {
+		exclude: [0, 1, 8, 9, 10]
+	},
     "language": { "url": "/js/dataTables.french.lang" },
+	"order" : [[ 1 , 'desc' ]],
 	"columns": [
-	               {name:"B.sk_client", "visible":false},
-				   {name:"numbrmat"},
-	               {name:"datdem", className: "textecentre"},
-				   {name:"lb_nom"},
-				   {name:"datrec", className: "textecentre"},
-				   {name:"datenvmail", className: "textecentre"},
-				   {name:"hrsenvmail", className: "textecentre"},
-				   {name:"datfinhad", className: "textecentre"},
-	               {name:"B.statut" , "visible":false}
-	             ],
-     "ajax": "/bonrmat/tableau_json",
-     "serverSide": true,
-   	 "stateSave":true       	 
+		{name:"B.sk_client", "visible": false},
+		{name:"numbrmat"},
+		{name:"datdem", className: "textecentre"},
+		{name:"lb_nom"},
+		{name:"datrec", className: "textecentre"},
+		{name:"datenvmail", className: "textecentre"},
+		{name:"hrsenvmail", className: "textecentre"},
+		{name:"datfinhad", className: "textecentre"},
+		{name:"s.label", className: "textecentre"},
+		{name:"dateStatus", className: "textecentre"},
+		{name:"B.statut" , "visible": false},
+	],
+	"ajax": "/bonrmat/tableau_json",
+	"serverSide": true
 });	
 $('#tableau_resultat tbody').on('click', 'tr', function () {
 	table.$('tr.selected').removeClass('selected');
@@ -90,7 +93,7 @@ $('#tableau_resultat tbody').on('click', 'tr', function () {
 	data = table.fnGetData(this);
 	numbrmat =  data[1];
 	datfinhad = data[7];
-	statut = data[8];
+	statut = data[10];
 	action(numbrmat, datfinhad, statut);
 });
 function activer(numbrmat){

@@ -4,7 +4,9 @@ class boncdesCtrl extends Controller {
 
 	public $smarty;
 	public $boncde_entete;
-	
+	private $orderStatusRepository;
+	private $orderRepository;
+
 	public function __construct() {
 		parent::__construct();
 		$this->smarty = new SmartyID ();
@@ -16,6 +18,8 @@ class boncdesCtrl extends Controller {
 		$this->produit_had = new dbtable('produit_had');
 		$this->raison_had = new dbtable('raison_had');
 		$this->utilisateur = new dbtable('UTILISATEURS');
+		$this->orderStatusRepository = new OrderStatusRepository();
+		$this->orderRepository = new OrderRepository();
 	}
 
 	public function defaut() {
@@ -89,7 +93,6 @@ class boncdesCtrl extends Controller {
 	 * **********************************************
 	 */
 	public function tableau_json() {
-
 		$r_boncde_entete = $_SESSION ['r_boncde_entete'];
 
 		// CONSTRUCTION DU WHERE
@@ -125,7 +128,7 @@ class boncdesCtrl extends Controller {
 		}
 
 		// RECUP. DU NOMBRE TOTAL D'ENREG.
-		$sqlcount = "SELECT COUNT(*) AS CPT FROM boncde_entete B ";
+		$sqlcount = "SELECT COUNT(*) AS CPT FROM boncde_entete B left join orderStatus s ON B.statusId = s.id left join patient_had P ON numpat=P.ext_patient ";
 		$count = $this->boncde_entete->queryFirst($sqlcount);
 
 		// RECUP. DU NOMBRE D'ENREG. FILTRES.
@@ -136,7 +139,7 @@ class boncdesCtrl extends Controller {
 
 		// CONSTRUCTION DE LA REQUETE.
 		$fields = $this->datatable_columns($_GET);
-		$sql = "SELECT " . implode(" , ", $fields) . " FROM boncde_entete B left join patient_had P ON numpat=P.ext_patient ";
+		$sql = "SELECT " . implode(" , ", $fields) . " FROM boncde_entete B left join orderStatus s ON B.statusId = s.id left join patient_had P ON numpat=P.ext_patient ";
 		if (!empty($wheres))
 			$sql .= " WHERE " . implode(" AND ", $wheres);
 	
@@ -152,6 +155,8 @@ class boncdesCtrl extends Controller {
 		$inddatenvmail = array_search('datenvmail', $fields);
 		$inddatfinhad = array_search('B.datfinhad', $fields);
 		$indstatut = array_search('B.statut', $fields);
+		$orderStatus = array_search('s.label', $fields);
+		$dateStatus = array_search('dateStatus', $fields);
 
 		foreach ($elements as $k => $element) {
 
@@ -159,6 +164,16 @@ class boncdesCtrl extends Controller {
 			$element[$inddatliv] = datevershtml($element[$inddatliv]);
 			$element[$inddatenvmail] = datevershtml($element[$inddatenvmail]);
 			$element[$inddatfinhad] = datevershtml($element[$inddatfinhad]);
+
+			if (!isset($element[$orderStatus]) || $element[$orderStatus] === '') {
+			    $element[$orderStatus] = 'En attente';
+            }
+
+            if (!isset($element[$dateStatus]) || $element[$dateStatus] === '') {
+                $element[$dateStatus] = '';
+            } else {
+                $element[$dateStatus] = datevershtml($element[$dateStatus], 'Y-m-d H:i:s', 'd/m/Y H:i:s');
+            }
 			
 			$element [] = '<a href="#" onclick="editer(\'' . $element [$indcode] . '\');"><img src="/img/pictos/edit.gif" alt="Modifier" title="Modifier"></a>';
 			if ($element[$indstatut] == 'A') { 				
@@ -181,8 +196,6 @@ class boncdesCtrl extends Controller {
 			"data" => $elements
 		);
 		echo json_encode($output);
-		
-		
 	}
 
 	/**
@@ -191,6 +204,9 @@ class boncdesCtrl extends Controller {
 	 * **********************************************
 	 */
 	public function liste($rp_numcde = '', $rp_datdem = '', $rp_datliv = '') {
+
+	    //Mise à jour des status de commande
+        $this->orderRepository->updateAllOrdersStatus(true);
 
 		// valeur par defaut des recherches
 		$r_boncde_entete = array(
@@ -276,12 +292,22 @@ class boncdesCtrl extends Controller {
 	 * *********************************************
 	 */
 	public function modifier($numcde) {
-
 		if (isset($numcde)) {
 			// Lecture enregistrement
 			$element = $this->boncde_entete->find('numcde', $numcde);
 			// si pas trouve alors on revient sur la liste
 			if ($element) {
+                $element['statusLabel'] = '';
+                $this->orderRepository->updateOrderStatus($element, true);
+
+			    if (isset($element['statusId'])) {
+			        $displayDate = datevershtml($element['dateStatus'], 'Y-m-d H:i:s', 'd/m/Y H:i:s');
+			        if ($displayDate !== '') {
+			            $element['statusLabel'] = $this->orderStatusRepository->getStatusLabel($element['statusId']) . ' depuis le ' . $displayDate;
+			        } else {
+			            $element['statusLabel'] = $this->orderStatusRepository->getStatusLabel($element['statusId']);
+                    }
+                }
 
 				$element['datdem'] = datevershtml($element['datdem']);
 				$element['datliv'] = datevershtml($element['datliv']);
@@ -364,6 +390,7 @@ class boncdesCtrl extends Controller {
 		$element = $this->boncde_entete->emptyRecord();
 		$element['sk_client'] = auth::$auth ['sk_client'];
 		$element['datdem'] = date('d/m/Y');
+		$element['statusLabel'] = '';
 
 		// Lecture enregistrement
 		$groupes = $this->boncde_poste->query("select distinct(lb_hierachie) "
@@ -527,6 +554,7 @@ class boncdesCtrl extends Controller {
 				}
 				$this->message("Le bon de commande a été modifié avec succès", "normal");
 			}
+
             $this->mailbcde($_POST['numcde']);
 		}
 
@@ -821,6 +849,6 @@ class boncdesCtrl extends Controller {
 			$this->liste();
 		}
 	}
-
 }
 ?>
+

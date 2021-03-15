@@ -10,7 +10,7 @@
 	{/if}
 	<div id="tabs" class="form" style="height:900px">
 		<ul>
-			<li><a href="#tabs-1">Bon de commande N° {$element.numcde}</a></li>			
+			<li><a href="#tabs-1">Bon de commande N° {$element.numcde} {if isset($element.statusLabel) && $element.statusLabel NE ''}(<em class="orderStatus">{$element.statusLabel}</em>){/if}</a></li>
 		</ul>
 
 		</li>

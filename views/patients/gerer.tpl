@@ -70,43 +70,29 @@
 			</li>
 					
 			{foreach $boncdes_entete as $k => $boncde_entete}	
-				<li> <input type="hidden" name="element[numcde][$k]" value="{$boncde_entete.numcde}">
+				<li>
+					<input type="hidden" name="element[numcde][$k]" value="{$boncde_entete.numcde}">
 					{if !empty({$boncde_entete.numcde})}
-						<!--<li>
-							<a href="/bonrmat/ajouter/{$boncde_entete.numcde}" style="color:black; text-decoration:none">  <img src="/img/pictos/materiel.png" alt="Ajouter" title="Ajouter bon de récupération matériel" > Récupérer le matériel sélectionné</a>
-							<a href="/bonrdec/ajouter/{$boncde_entete.numcde}" style="color:black; text-decoration:none">  <img src="/img/pictos/dechet.png" alt="Ajouter" title="Ajouter bon de récupération déchet" </a>
-						</li>-->
-						<img src="/img/pictos/commande.png" title="Bon de commande" > <b> > Commande n° </b> {$boncde_entete.numcde} du  {$boncde_entete.datdem|dat} pour le {$boncde_entete.datliv|dat}
-						<a href="/boncdes/modifier/{$boncde_entete.numcde}"  style="color:black;  text-decoration:none"><img src="/img/pictos/edit.gif" alt="Modifier" title="Modifier / Rajouter commande"> </a>
-						<!-- B.OCHUDLO le 23/11/2015 <a href="/boncdes/envmailbcde/{$boncde_entete.numcde}/0"> <img src="/img/pictos/mail.png" alt="Envoyer mail" title="Valider commande"></a>-->
-						<!--<b>......</b>
-						<a href="/bonrmat/ajouter/{$boncde_entete.numcde}" style="color:black; text-decoration:none"> <img src="/img/pictos/materiel.png" alt="Ajouter" title="Ajouter bon de récupération matériel" > </a>
-						<a href="/bonrdec/ajouter/{$boncde_entete.numcde}" style="color:black; text-decoration:none"> <img src="/img/pictos/dechet.png" alt="Ajouter" title="Ajouter bon de récupération déchet" </a>
-						-->
+						<img src="/img/pictos/commande.png" title="Bon de commande" >
+						<b> > Commande n° </b> {$boncde_entete.numcde} du  {$boncde_entete.datdem|dat} pour le {$boncde_entete.datliv|dat} <em class="orderStatus">({$boncde_entete.status} depuis le {$boncde_entete.dateStatus})</em>
+						<a href="/boncdes/modifier/{$boncde_entete.numcde}"  style="color:black;  text-decoration:none">
+							<img src="/img/pictos/edit.gif" alt="Modifier" title="Modifier / Rajouter commande">
+						</a>
+
 						{foreach $boncde_entete.brm as $k => $brm}	
 							{if !empty({$brm.numbrmat})}
 								<li> 
-									<img src="/img/pictos/materiel.png" title="Bon de récupération matériel" style="margin-left: 50px;"> <b>Récup. matériel n° </b> {$brm.numbrmat} du {$brm.datdem|dat} pour le {$brm.datrec|dat}
-									<a href="/bonrmat/modifier/{$brm.numbrmat}"  style="color:black;  text-decoration:none"><img src="/img/pictos/edit.gif" alt="Modifier" title="Modifier / Rajouter bon de récupération matériel"> </a>
-									<!-- B.OCHUDLO le 23/11/2015 <a href="/bonrmat/envmailbrmat/{$brm.numbrmat}"> <img src="/img/pictos/mail.png" alt="Envoyer mail" title="Valider bon"></a>-->
+									<img src="/img/pictos/materiel.png" title="Bon de récupération matériel" style="margin-left: 50px;">
+									<b>Récup. matériel n° </b> {$brm.numbrmat} du {$brm.datdem|dat} pour le {$brm.datrec|dat} <em class="orderStatus">({$brm.status} depuis le {$brm.dateStatus})</em>
+									<a href="/bonrmat/modifier/{$brm.numbrmat}"  style="color:black;  text-decoration:none">
+										<img src="/img/pictos/edit.gif" alt="Modifier" title="Modifier / Rajouter bon de récupération matériel">
+									</a>
 								</li>
 							{/if}
 						{/foreach}
-
-						<!-- {foreach $boncde_entete.brd as $k => $brd}	
-							{if !empty({$brd.numbrdec})}
-								<li> <img src="/img/pictos/dechet.png" title="Bon de récupération dechet"  style="margin-left: 50px;"> <b>Récup. déchet n° </b> {$brd.numbrdec} du {$brd.datdem|dat} pour le {$brd.datrec|dat}
-									<a href="/bonrdec/modifier/{$brd.numbrdec}"  style="color:black;  text-decoration:none"><img src="/img/pictos/edit.gif" alt="Modifier" title="Editer bon de récupération déchet"> </a>
-									<!-- B.OCHUDLO le 23/11/2015 <a href="/bonrdec/envmailbrdec/{$brd.numbrdec}"> <img src="/img/pictos/mail.png" alt="Envoyer mail" title="Envoyer mail"></a>-->
-								</li>
-							{/if}
-						{/foreach}
-						-->
 					{/if}
-					
 				</li>
 			{/foreach}
-					
 		</ol>
 	</div>
 </form>

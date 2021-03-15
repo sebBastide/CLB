@@ -8,7 +8,12 @@ function __autoload($classname) {
 		if (is_readable($filename))
 			require $filename;
 		else
-			include BASE_DIR . 'core/' . $classname . '.php';
+		    if (is_readable(BASE_DIR . 'core/' . $classname . '.php')) {
+                include BASE_DIR . 'core/' . $classname . '.php';
+            } else {
+		        require BASE_DIR . 'repositories/' . $classname . '.php';
+            }
+
 	}
 }
 function getBrowser() {

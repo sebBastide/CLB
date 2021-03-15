@@ -352,6 +352,11 @@ a.nounderline:link
 	cursor: pointer;
 }
 
+.orderStatus {
+	font-weight: bold;
+	color: red;
+}
+
 .env-name {
 	color: red;
 	font-weight: bolder;

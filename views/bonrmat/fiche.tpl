@@ -8,7 +8,7 @@
 	
 	<div id="tabs" class="form" style="height:700px">
 		<ul>
-			<li><a href="#tabs-1">Bon de récupération matériel N° {$element.numbrmat}</a></li>			
+			<li><a href="#tabs-1">Bon de récupération matériel N° {$element.numbrmat} {if isset($element.statusLabel) && $element.statusLabel NE ''}(<em class="orderStatus">{$element.statusLabel}</em>){/if}</a></li>
 		</ul>
 
 		<div id="tabs-1" class="form_editer">

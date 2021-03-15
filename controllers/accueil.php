@@ -70,11 +70,9 @@ public $smarty;
 		// livraison/recup J+2
 		//=====================================================	
 		$bons = array(array('numbon' => '', 'datdem' => '', 'lb_titre' => '', 'lb_nom' => '','datint' => ''));
-		
-		if (auth::$auth['grputi'] == 'U' ) {
-			// Lecture enregistrement
-			$datlim = date( "Y-m-d", time() + 2 * 24 * 60 * 60); 
-			
+        // Lecture enregistrement
+        $datlim = date( "Y-m-d", time() + 2 * 24 * 60 * 60);
+        if (auth::$auth['grputi'] == 'U' ) {
 			$req = "(SELECT numcde as numbon, datdem, lb_titre, lb_nom, datliv as datint FROM boncde_entete B LEFT JOIN patient_had P ON numpat=P.ext_patient WHERE B.statut='A' AND B.sk_client='" . auth::$auth['sk_client'] . "' AND datliv>='".$datlim."') UNION (SELECT numbrdec as numbon, datdem, lb_titre, lb_nom, datrec as datint FROM bonrec_dechet B LEFT JOIN patient_had P ON numpat=P.ext_patient WHERE B.statut='A' AND B.sk_client='" . auth::$auth['sk_client'] . "' AND datrec>='".$datlim."') UNION (SELECT numbrmat as numbon, datdem, lb_titre, lb_nom, datrec as datint FROM bonrec_materiel B LEFT JOIN patient_had P ON numpat=P.ext_patient WHERE B.statut='A' AND B.sk_client='" . auth::$auth['sk_client'] . "' AND datrec>='".$datlim."') ORDER BY numbon DESC, datint DESC LIMIT 100";
 			$bons = $this->bonrecs_dechet->query($req);
 			if ($bons) {	

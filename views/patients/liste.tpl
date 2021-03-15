@@ -42,8 +42,6 @@
 				<th>Code postal</th>
 				<th>statut</th>
 				<th></th>
-				
-				
 			</tr>
 		</thead>
 	</table>
@@ -56,34 +54,32 @@ var table = $('#tableau_resultat').dataTable( {
     "processing": true,
     "scrollX": "100%",
     "scrollY": "400px",
-     "scrollCollapse": true,
+	"scrollCollapse": true,
  	"dom": 'C<"clear">RtiS',
     "deferRender":true,
     "scroller": {
-          "loadingIndicator": true
-      },
-     "colReorder": {
-          "fixedColumns": 1 ,      //colonnes non deplacables a droite
-          "fixedColumnsRight": 3  //colonnes non deplacables a droite
-                },
-     "colVis": {
-                 exclude: [0, 7]
-                },
+    	"loadingIndicator": true
+	},
+	"colReorder": {
+		"fixedColumns": 1 ,      //colonnes non deplacables a droite
+		"fixedColumnsRight": 3  //colonnes non deplacables a droite
+	},
+	"colVis": {
+		exclude: [0, 7]
+	},
     "language": { "url": "/js/dataTables.french.lang" },
 	"columns": [
-	               {name:"ext_patient"},
-	               {name:"lb_titre"},
-				   {name:"lb_nom"},
-	               {name:"dt_naissance"},
-				   {name:"lb_ville"},
-				   {name:"lb_codepostal"},
-				   {name:"statut"},
-				   {"orderable": false},  
-				   
-	             ],
-     "ajax": "/patients/tableau_json",
-     "serverSide": true,
-   	 "stateSave":true       	 
+	   {name:"ext_patient"},
+	   {name:"lb_titre"},
+	   {name:"lb_nom"},
+	   {name:"dt_naissance"},
+	   {name:"lb_ville"},
+	   {name:"lb_codepostal"},
+	   {name:"statut"},
+	   {"orderable": false}
+	],
+	"ajax": "/patients/tableau_json",
+	"serverSide": true
 });	
 	
 function activer(ext_patient){

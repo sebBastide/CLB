@@ -44,6 +44,8 @@
 				<th>Date envoi mail</th>
 				<th>Heure envoi mail</th>
 				<th>Date fin HAD</th>
+				<th>Statut commande</th>
+				<th>Date du statut</th>
 				<th>Statut</th>
 			</tr>
 		</thead>
@@ -58,32 +60,34 @@ var table = $('#tableau_resultat').dataTable( {
     "autoWidth" : true,
     "processing": true,
     "scrollY": "400px",
-     "scrollCollapse": true,
+	"scrollCollapse": true,
  	"dom": 'C<"clear">RtiS',
     "deferRender":true,
     "scroller": {
           "loadingIndicator": true
       },
-     "colReorder": {
-          "fixedColumns": 1 ,      //colonnes non deplacables a droite
-          "fixedColumnsRight": 1   //colonnes non deplacables a droite
-                },
-     "colVis": {
-                    exclude: [0, 1]
-                },
+	"colReorder": {
+		"fixedColumns": 1 ,      //colonnes non deplacables a droite
+		"fixedColumnsRight": 1   //colonnes non deplacables a droite
+	},
+	"colVis": {
+    	exclude: [0, 1]
+	},
     "language": { "url": "/js/dataTables.french.lang" },
-	 order : [[ 1 , 'desc' ]],
+	"order" : [[ 1 , 'desc' ]],
 	"columns": [
-	               {name:"B.sk_client", "visible":false},
-				   {name:"numcde"},
-	               {name:"datdem", className: "textecentre"},
-				   {name:"lb_nom"},				   
-				   {name:"datliv", className: "textecentre"},
-				   {name:"datenvmail", className: "textecentre"},
-				   {name:"hrsenvmail", className: "textecentre"},
-				   {name:"B.datfinhad", className: "textecentre"},
-	               {name:"B.statut" , "visible":false}
-	             ],
+		{name:"B.sk_client", "visible":false},
+		{name:"numcde"},
+		{name:"datdem", className: "textecentre"},
+		{name:"lb_nom"},
+		{name:"datliv", className: "textecentre"},
+		{name:"datenvmail", className: "textecentre"},
+		{name:"hrsenvmail", className: "textecentre"},
+		{name:"B.datfinhad", className: "textecentre"},
+		{name:"s.label", className: "textecentre"},
+		{name:"dateStatus", className: "textecentre"},
+		{name:"B.statut" , "visible":false}
+	],
      "ajax": "/boncdes/tableau_json",
      "serverSide": true,
    	 "stateSave":true       	 
@@ -95,7 +99,7 @@ var table = $('#tableau_resultat').dataTable( {
 		data = table.fnGetData(this);
 		numcde = data[1];
 		datfinhad = data[7];
-		statut = data[8];
+		statut = data[10];
 		action(numcde, datfinhad, statut);
 	});
 

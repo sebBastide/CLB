@@ -68,26 +68,26 @@ class patientsCtrl extends Controller {
 			$wheres [] = " dt_naissance = '" . sql_escape(dateverssql($r_patients ['r_dt_naissance'])) . "'";
 		
 		// Restriction aux utilisateurs
-		if (auth::$auth ['grputi']!="A") {
-		$wheres [] = "sk_client = '" . auth::$auth ['sk_client'] . "'";
-	}
+		if (auth::$auth ['grputi'] != "A") {
+		    $wheres [] = "sk_client = '" . auth::$auth ['sk_client'] . "'";
+	    }
 	
 		// RECUP. DU NOMBRE TOTAL D'ENREG.
 		$sqlcount = "SELECT COUNT(*) AS CPT FROM patient_had ";
-		$count = $this->patient_had->queryFirst($sqlcount);
+		$count = $this->patient_had->queryFirst($sqlcount . " WHERE ext_patient <> ''");
 		
 		// RECUP. DU NOMBRE D'ENREG. FILTRES.
 		if (!empty($wheres))
-			$countfilter = $this->patient_had->queryFirst($sqlcount . " WHERE " . implode(" AND ", $wheres));
+			$countfilter = $this->patient_had->queryFirst($sqlcount . " WHERE " . implode(" AND ", $wheres) . " AND ext_patient <> ''");
 		else
 			$countfilter = $count;
 		
 		// CONSTRUCTION DE LA REQUETE.
 		$fields = $this->datatable_columns($_GET);
-		$sql = "SELECT " . implode(" , ", $fields) . " FROM patient_had ";
+		$sql = "SELECT " . implode(" , ", $fields) . " FROM patient_had WHERE ext_patient <> '' ";
 		
 		if (!empty($wheres))
-			$sql .= " WHERE " . implode(" AND ", $wheres);
+			$sql .= 'AND ' . implode(" AND ", $wheres);
 		$sql .= $this->datatable_order_offset($_GET, $fields);
 	
 		// EXECUTION DE LA REQUETE.
@@ -190,14 +190,13 @@ class patientsCtrl extends Controller {
 
 				if (auth::$auth['grputi'] == 'U' ) {
 					// Lecture enregistrement
-					$boncdes_entete = $this->boncdes_entete->query("SELECT numcde, datdem, numpat, datliv FROM boncde_entete WHERE sk_client='" . auth::$auth['sk_client'] . "' AND numpat ='".$patient['ext_patient']. "' ORDER BY numcde DESC LIMIT 1000");
+					$boncdes_entete = $this->boncdes_entete->query("SELECT numcde, datdem, numpat, datliv, CASE WHEN ISNULL(s.label) = 1 THEN 'En attente' ELSE s.label END as status, DATE_FORMAT(dateStatus, '%d/%m/%Y %H:%i:%s') as dateStatus FROM boncde_entete LEFT JOIN orderStatus s ON s.id = boncde_entete.statusId WHERE sk_client='" . auth::$auth['sk_client'] . "' AND numpat ='".$patient['ext_patient']. "' ORDER BY numcde DESC LIMIT 1000");
 					if ($boncdes_entete) {
-
 						foreach ($boncdes_entete as $k => $boncde_entete) {
-							$boncde_entete['brm'] = $this->bonrecs_materiel->query("SELECT numbrmat, datdem, datrec FROM bonrec_materiel WHERE sk_client='" . auth::$auth['sk_client']. "' AND numbrmat like '".$boncde_entete['numcde']."_M%' ORDER BY numbrmat DESC LIMIT 1000");
+							$boncde_entete['brm'] = $this->bonrecs_materiel->query("SELECT numbrmat, datdem, datrec, CASE WHEN ISNULL(s.label) = 1 THEN 'En attente' ELSE s.label END as status, DATE_FORMAT(dateStatus, '%d/%m/%Y %H:%i:%s') as dateStatus FROM bonrec_materiel LEFT JOIN orderStatus s ON s.id = bonrec_materiel.statusId WHERE sk_client='" . auth::$auth['sk_client']. "' AND numbrmat like '".$boncde_entete['numcde']."_M%' ORDER BY numbrmat DESC LIMIT 1000");
 							if ($boncde_entete['brm']) {
 							}else{
-								$boncde_entete['brm'] = array(array('numbrmat' => '', 'datdem' => '', 'datrec'=>''));		
+								$boncde_entete['brm'] = array(array('numbrmat' => '', 'datdem' => '', 'datrec' => '', 'status' => '', 'dateStatus' => ''));
 							}	
 							
 //							$boncde_entete['brd'] = $this->bonrecs_dechet->query("SELECT numbrdec, datdem, datrec  FROM bonrec_dechet WHERE sk_client='". auth::$auth['sk_client']. "' AND numbrdec like '".$boncde_entete['numcde']."_D%' ORDER BY numbrdec DESC LIMIT 1000");
@@ -210,7 +209,7 @@ class patientsCtrl extends Controller {
 						}
 						
 					} else {
-						$boncdes_entete = array(array('numcde' => '', 'datdem' => '', 'numpat' => '', 'datliv'=> '', 'brm'=>array(array('numbrmat' => '', 'datdem' => '', 'datrec'=>'')), 'brd'=>array(array('numbrdec' => '', 'datdem' => '', 'datrec'=>''))));	
+						$boncdes_entete = array(array('numcde' => '', 'datdem' => '', 'numpat' => '', 'datliv'=> '', 'status' => '', 'dateStatus' => '', 'brm'=>array(array('numbrmat' => '', 'datdem' => '', 'datrec' => '', 'status' => '', 'dateStatus' => '')), 'brd'=>array(array('numbrdec' => '', 'datdem' => '', 'datrec'=>''))));
 					}
 				}
 				/*Debut B.OCHUDLO  */
@@ -250,7 +249,7 @@ class patientsCtrl extends Controller {
 						$this->bonrec_poste->insert(array(
 							'sk_client'=> auth::$auth ['sk_client'], 
 							'numbrmat'=> $_POST['numbrmat'], 
-							'sk_produit'=>$POST['sk_produit'],
+							'sk_produit'=>$_POST['sk_produit'],
 							'lb_produit'=>$this->bonrec_poste->recuplib('produit_had','sk_produit', $k, 'lb_produit'),
 							'arecup'=>1));		
 						

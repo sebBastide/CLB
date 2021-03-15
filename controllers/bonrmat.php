@@ -4,6 +4,8 @@ class bonrmatCtrl extends Controller {
 
 	public $smarty;
 	public $bonrec_materiel;
+	private $orderStatusRepository;
+	private $orderRepository;
 
 	public function __construct() {
 		parent::__construct();
@@ -17,6 +19,8 @@ class bonrmatCtrl extends Controller {
 		$this->patient_had = new dbtable('patient_had');
 		$this->raison_had = new dbtable('raison_had');
 		$this->utilisateur = new dbtable('UTILISATEURS');
+		$this->orderStatusRepository = new OrderStatusRepository();
+		$this->orderRepository = new OrderRepository();
 	}
 
 	public function defaut() {
@@ -58,11 +62,11 @@ class bonrmatCtrl extends Controller {
 		// CONSTRUCTION DU WHERE
 		$wheres = array();
 		
-		if (isset($r_bonrec_materiel['r_statut']) && $r_bonrec_materiel ['r_statut'] != 'T'&& $r_bonrec_materiel ['r_statut'] != 'H')
+		if (isset($r_bonrec_materiel['r_statut']) && $r_bonrec_materiel ['r_statut'] != 'T' && $r_bonrec_materiel ['r_statut'] != 'H')
 			$wheres [] = "B.statut='" . $r_bonrec_materiel ['r_statut'] . "' AND B.datfinhad='0000-00-00'";
 		
 		if (isset($r_bonrec_materiel['r_statut']) && $r_bonrec_materiel ['r_statut'] == 'H')
-			$wheres [] = "B.datfinhad<>'0000-00-00'";
+			$wheres [] = "B.datfinhad <> '0000-00-00'";
 		
 		if (isset($r_bonrec_materiel ['r_numbrmat']) && !empty($r_bonrec_materiel ['r_numbrmat']))
 			$wheres [] = "numbrmat='" . sql_escape($r_bonrec_materiel ['r_numbrmat']) . "'";
@@ -85,7 +89,7 @@ class bonrmatCtrl extends Controller {
 		}
 		
 		// RECUP. DU NOMBRE TOTAL D'ENREG.
-		$sqlcount = "SELECT COUNT(*) AS CPT FROM bonrec_materiel B";
+		$sqlcount = "SELECT COUNT(*) AS CPT FROM bonrec_materiel B left join orderStatus s ON B.statusId = s.id left join patient_had P ON numpat=P.ext_patient ";
 		$count = $this->bonrec_materiel->queryFirst($sqlcount);
 		
 		// RECUP. DU NOMBRE D'ENREG. FILTRES.
@@ -96,7 +100,7 @@ class bonrmatCtrl extends Controller {
 		
 		// CONSTRUCTION DE LA REQUETE.
 		$fields = $this->datatable_columns($_GET);
-		$sql = "SELECT " . implode(" , ", $fields) . " FROM bonrec_materiel B left join patient_had P ON numpat=P.ext_patient ";
+		$sql = "SELECT " . implode(" , ", $fields) . " FROM bonrec_materiel B left join orderStatus s ON B.statusId = s.id left join patient_had P ON numpat=P.ext_patient ";
 		if (!empty($wheres))
 			$sql .= " WHERE " . implode(" AND ", $wheres);
 		$sql .= $this->datatable_order_offset($_GET, $fields);
@@ -111,6 +115,8 @@ class bonrmatCtrl extends Controller {
 		$inddatfinhad = array_search('datfinhad', $fields);
 		$inddatenvmail = array_search('datenvmail', $fields);
 		$indstatut = array_search('B.statut', $fields);
+        $orderStatus = array_search('s.label', $fields);
+        $dateStatus = array_search('dateStatus', $fields);
 		
 		foreach ($elements as $k => $element) {
 			
@@ -118,10 +124,20 @@ class bonrmatCtrl extends Controller {
 			$element[$inddatrec] = datevershtml($element[$inddatrec]);
 			$element[$inddatfinhad] = datevershtml($element[$inddatfinhad]);
 			$element[$inddatenvmail] = datevershtml($element[$inddatenvmail]);
+
+			if (!isset($element[$orderStatus]) || $element[$orderStatus] === '') {
+			    $element[$orderStatus] = 'En attente';
+			}
+
+			if (!isset($element[$dateStatus]) || $element[$dateStatus] === '') {
+			    $element[$dateStatus] = '';
+			} else {
+			    $element[$dateStatus] = datevershtml($element[$dateStatus], 'Y-m-d H:i:s', 'd/m/Y H:i:s');
+			}
 			
 			$elements [$k] = $element;
-			}
-			// RENVOI DU RESULTAT
+		}
+        // RENVOI DU RESULTAT
 		$output = array(
 			"draw" => $_GET ['draw'],
 			"recordsTotal" => $count ['CPT'],
@@ -136,8 +152,10 @@ class bonrmatCtrl extends Controller {
 	 * **********************************************
 	 */
 	public function liste($rp_numbrmat='', $rp_datdem='', $rp_datrec='') {
+        //Mise à jour des status de commande
+	    $this->orderRepository->updateAllOrdersStatus(false);
 
-	// valeur par defaut des recherches
+	    // valeur par defaut des recherches
 		$r_bonrec_materiel = array(
 			'r_numbrmat' => '',
 			'r_numpat' => '',
@@ -202,16 +220,26 @@ class bonrmatCtrl extends Controller {
 	 * *********************************************
 	 */
 	public function modifier($numbrmat) {
-		
 		if (isset($numbrmat)) {
-			
 			// Lecture enregistrement
 			$element = $this->bonrec_materiel->find('numbrmat', $numbrmat);
 			$element['hide_numbrmat'] = $element['numbrmat'];
 			$element['hide_datfinhad'] = $element['datfinhad'];
 			
 			// si pas trouve alors on revient sur la liste
-			if ($element) {				
+			if ($element) {
+                $element['statusLabel'] = '';
+			    $this->orderRepository->updateOrderStatus($element, false);
+
+                if (isset($element['statusId'])) {
+                    $displayDate = datevershtml($element['dateStatus'], 'Y-m-d H:i:s', 'd/m/Y H:i:s');
+                    if ($displayDate !== '') {
+                        $element['statusLabel'] = $this->orderStatusRepository->getStatusLabel($element['statusId']) . ' depuis le ' . $displayDate;
+                    } else {
+                        $element['statusLabel'] = $this->orderStatusRepository->getStatusLabel($element['statusId']);
+                    }
+                }
+
 				$element['datdem'] = datevershtml($element['datdem']);
 				$element['datrec'] = datevershtml($element['datrec']);
 				$element['datfinhad'] = datevershtml($element['datfinhad']);
