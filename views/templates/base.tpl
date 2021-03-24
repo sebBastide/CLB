@@ -34,6 +34,9 @@
 				</tr>
 			</tbody>
 		</table>
+		{if $env !== 'prod'}
+			<p class="env-name">Environnement de {$env}</p>
+		{/if}
 	</div>
 	<div id="zone_menu">
 		<div class="centrer">

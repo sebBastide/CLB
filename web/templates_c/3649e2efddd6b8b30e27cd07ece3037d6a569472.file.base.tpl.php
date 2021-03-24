@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2021-03-11 03:15:18
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2021-03-24 09:11:56
          compiled from "/var/www/html/clb/views/templates/base.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1504836861603774df374576-28378309%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '3649e2efddd6b8b30e27cd07ece3037d6a569472' => 
     array (
       0 => '/var/www/html/clb/views/templates/base.tpl',
-      1 => 1615461312,
+      1 => 1616602315,
       2 => 'file',
     ),
   ),
@@ -27,6 +27,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'imagefond' => 0,
     'imgpath' => 0,
     'sessioncoduti' => 0,
+    'env' => 0,
     'listemenu' => 0,
     'message' => 0,
     'contenuPage' => 0,
@@ -88,6 +89,10 @@ $_smarty_tpl->tpl_vars['js1']->_loop = true;
 				</tr>
 			</tbody>
 		</table>
+		<?php if ($_smarty_tpl->tpl_vars['env']->value!=='prod') {?>
+			<p class="env-name">Environnement de <?php echo $_smarty_tpl->tpl_vars['env']->value;?>
+</p>
+		<?php }?>
 	</div>
 	<div id="zone_menu">
 		<div class="centrer">

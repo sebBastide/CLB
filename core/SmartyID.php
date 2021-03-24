@@ -77,6 +77,7 @@ class SmartyID extends Smarty {
 			$_SESSION['imagefond']='/img/charte/fond-site.jpg';
 		$this->assign('imagefond', $_SESSION['imagefond']);
 		$this->assign('titrepage', $titre);
+		$this->smarty->assign('env', ENV);
 		$this->displayBase($layout);
 	}
 

@@ -351,3 +351,9 @@ a.nounderline:link
 .clickable > tbody > tr {
 	cursor: pointer;
 }
+
+.env-name {
+	color: red;
+	font-weight: bolder;
+	font-size: 18px;
+}
