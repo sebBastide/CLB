@@ -95,7 +95,7 @@
 																	<input type="hidden" name="groupes[{$k}][produits][{$p}][sk_produit]" value="{$produit.sk_produit}" />
 																	<input type="hidden" name="acde[{$produit.sk_produit}]" value="{$produit.numcde}" />																			
 																	
-																	<td style="width:250px; padding-left:10px; size:8px;">{$produit.lb_produit}</td>
+																	<td style="width:250px; padding-left:10px; size:8px;">{if isset($produit.otherLabel) && $produit.otherLabel !== ''}{$produit.otherLabel}{else}{$produit.lb_produit}{/if}</td>
 																	<td style="width:100px "> <b>{$produit.sk_produit|replace:'FKL55651':'FKL5565'|replace:'FKL55652':'FKL5565'|replace:'FKL33101':'FKL3310'|replace:'FKL33102':'FKL3310'|replace:'FKL33103':'FKL3310'}  </b></td>																		
 																	
 																	<!--{assign var='coche' value=$arecup[$produit.sk_produit]|default:'off'}-->

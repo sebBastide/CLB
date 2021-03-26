@@ -273,7 +273,7 @@ class bonrmatCtrl extends Controller {
 								. " AND B.sk_produit not in (select sk_produit from bonrec_poste where numbrmat LIKE '". $numcde."%'and numbrmat<>'".$numbrmat."') " 
 								. " order by lb_classement,P.lb_produit ", array('sk_client' => auth::$auth ['sk_client']));*/
 								
-						$groupe['produits'] = $this->bonrec_poste->query("SELECT DISTINCT CASE WHEN P.lb_produit = '' THEN B.co_produit ELSE P.lb_produit END as lb_produit, P.sk_produit, B.qt_produit, R.arecup, numcde, concat(P.sk_produit,concat('*',numcde)) as produitCommande"
+						$groupe['produits'] = $this->bonrec_poste->query("SELECT DISTINCT CASE WHEN P.lb_produit = '' THEN B.co_produit ELSE P.lb_produit END as lb_produit, P.otherLabel, P.sk_produit, B.qt_produit, R.arecup, numcde, concat(P.sk_produit,concat('*',numcde)) as produitCommande"
 						. " FROM produit_had P LEFT JOIN boncde_poste B ON P.sk_produit = B.sk_produit "
 						. " LEFT JOIN bonrec_poste R ON B.sk_produit = R.sk_produit AND B.numbrmat ='". $numbrmat."' "
 						. " WHERE lb_hierachie='" . $groupe['lb_hierachie']. "' AND P.sk_client=:sk_client AND R.numbrmat ='". $numbrmat."' "
@@ -408,7 +408,7 @@ class bonrmatCtrl extends Controller {
 				{		   
 					foreach ($groupes as $k => $groupe) 
 					{						
-						$groupe['produits'] = $this->bonrec_poste->query("SELECT distinct CASE WHEN P.lb_produit = '' THEN B.co_produit ELSE P.lb_produit END as lb_produit, P.sk_produit, B.qt_produit, R.arecup, numcde, concat(P.sk_produit,concat('*',numcde)) as produitCommande"
+						$groupe['produits'] = $this->bonrec_poste->query("SELECT distinct CASE WHEN P.lb_produit = '' THEN B.co_produit ELSE P.lb_produit END as lb_produit, P.otherLabel, P.sk_produit, B.qt_produit, R.arecup, numcde, concat(P.sk_produit,concat('*',numcde)) as produitCommande"
 						. " FROM produit_had P LEFT JOIN boncde_poste B ON P.sk_produit = B.sk_produit "
 						. " LEFT JOIN bonrec_poste R ON B.sk_produit = R.sk_produit AND LEFT(R.numbrmat,14) IN (". $_GET['id_commande'].") "
 						. " WHERE numcde in (". $_GET['id_commande'].") AND lb_hierachie='" . $groupe['lb_hierachie']. "' AND P.sk_client=:sk_client AND B.sk_produit IN (".$_GET['id_produit']. ")"
@@ -469,7 +469,7 @@ class bonrmatCtrl extends Controller {
 		   
 			foreach ($groupes as $k => $groupe) {
 						
-						$groupe['produits'] = $this->bonrec_poste->query("SELECT CASE WHEN P.lb_produit = '' THEN B.co_produit ELSE P.lb_produit END as lb_produit, P.sk_produit, B.qt_produit, R.arecup, numcde as numbrmat "
+						$groupe['produits'] = $this->bonrec_poste->query("SELECT CASE WHEN P.lb_produit = '' THEN B.co_produit ELSE P.lb_produit END as lb_produit, P.otherLabel, P.sk_produit, B.qt_produit, R.arecup, numcde as numbrmat "
 								. " FROM produit_had P LEFT JOIN boncde_poste B ON P.sk_produit = B.sk_produit "
 								. " LEFT JOIN bonrec_poste R ON B.sk_produit = R.sk_produit AND numbrmat LIKE '". $numcde."_%' "
 								. " WHERE numcde = '". $numcde."' AND lb_hierachie='" . $groupe['lb_hierachie']. "' AND P.sk_client=:sk_client "

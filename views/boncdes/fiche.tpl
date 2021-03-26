@@ -121,7 +121,7 @@
 													<tr>
 												{/if}
 											{/if}
-												<td style="width:360px;">{$produit.lb_produit}</td>
+												<td style="width:360px;">{if isset($produit.otherLabel) && $produit.otherLabel !== ''}{$produit.otherLabel}{else}{$produit.lb_produit}{/if}</td>
 													<td style="width:306px;"><input name="commentaire[{$produit.sk_produit}]" class="sk_produit" type="text" value="{if isset($commentaire[$produit.sk_produit])}{$commentaire[$produit.sk_produit]}{/if}" style="width:300px " tabindex="-1" {if $element.datfinhad NE 0} readonly {/if}/></td>
 													<td style="width:86px;">
 														<b>

@@ -43,7 +43,7 @@
 												{$bonc.sk_produit|replace:'FKL55651':'FKL5565'|replace:'FKL55652':'FKL5565'|replace:'FKL33101':'FKL3310'|replace:'FKL33102':'FKL3310'|replace:'FKL33103':'FKL3310'} 
 											{/if}
 											</td>
-											<td>{$bonc.lb_produit}</td>
+											<td>{if isset($bonc.otherLabel) && $bonc.otherLabel !== ''}{$bonc.otherLabel}{else}{$bonc.lb_produit}{/if}</td>
 											<td>{$bonc.co_produit}</td>
 											<td>{$bonc.qt_produit}</td>
 											<td>{if isset($bonc.credat)}{$bonc.credat}{/if}</td>	

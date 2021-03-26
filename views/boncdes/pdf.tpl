@@ -192,7 +192,7 @@
 					{foreach $groupe.produits as $produit}
 						<tr>
 							<td style="width:5%;height:20px" class="br bt bl bb small">   {$produit.sk_produit}</td>
-							<td style="width:27%"            class="br bt bl bb small">   {$produit.lb_produit|escape}</td>
+							<td style="width:27%"            class="br bt bl bb small">   {if isset($produit.otherLabel) && $produit.otherLabel !== ''}{$produit.otherLabel|escape}{else}{$produit.lb_produit|escape}{/if}</td>
 							<td style="width:6%"             class="br bt bl bb small hc">   {$quantite[$produit.sk_produit]}</td>
 							<td style="width:4%"             class="br bt bl bb small">   {$commentaire[$produit.sk_produit]}</td>
 						</tr>

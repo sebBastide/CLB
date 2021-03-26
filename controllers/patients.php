@@ -222,7 +222,7 @@ class patientsCtrl extends Controller {
 						"WHERE E.numpat='" . $patient['ext_patient'] . "' AND  brp.numbrmat IS NULL  order by E.numcde DESC ";
 				*/
 				// S.SAURY le 30.05.2016 : le bon de recup se trouve dans la table boncde_poste, donc suppression du lien vers bonrec_poste
-				$sqlLisProduitPatient ="SELECT P.lb_produit, P.sk_produit, B.qt_produit, B.co_produit,DATE_FORMAT( B.credat, '%d/%m/%y' ) AS credat,E.numcde  ". 
+				$sqlLisProduitPatient ="SELECT P.lb_produit, P.otherLabel, P.sk_produit, B.qt_produit, B.co_produit,DATE_FORMAT( B.credat, '%d/%m/%y' ) AS credat,E.numcde  ".
 						"FROM boncde_poste B LEFT JOIN produit_had P ON P.sk_produit = B.sk_produit ".
 						"INNER JOIN boncde_entete E ON E.numcde = B.numcde ". 
 						"WHERE E.numpat='" . $patient['ext_patient'] . "' AND (B.numbrmat not like 'CLB%'  )  order by E.numcde DESC ";
