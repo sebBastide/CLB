@@ -26,6 +26,15 @@ class OrderStatusRepository
                 "exception" => 0,
                 'login' => WEBSERVICE_LOGIN,
                 'password' => WEBSERVICE_PASSWORD,
+                'stream_context' => stream_context_create(
+                    [
+                        'ssl' => [
+                            'verify_peer'       => false,
+                            'verify_peer_name'  => false,
+                            'allow_self_signed' => true
+                        ]
+                    ]
+                )
             ]);
 
             $result = $wsClient->ZsdclbGetStatut([
