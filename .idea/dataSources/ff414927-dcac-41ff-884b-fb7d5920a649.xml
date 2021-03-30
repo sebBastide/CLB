@@ -2748,7 +2748,7 @@ posnr</ColNames>
     </column>
     <column id="675" parent="231" name="contact">
       <Position>22</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>varchar(350)|0s</DataType>
     </column>
     <key id="676" parent="231" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
