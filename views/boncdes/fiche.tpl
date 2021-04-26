@@ -162,7 +162,7 @@
 		</span>
 	{else}
 		<span {if $element.datfinhad NE 0} hidden {/if}>
-			<input name="btn_suivant"  type="submit" class="boutton right" value="Aperçu" />
+			<input name="btn_suivant"  type="submit" class="boutton right" value="Récapitulatif" />
 		</span>
 	{/if}
 	<input name="btn_annuler" type="submit" class="boutton left"  value="Fermer"  />
