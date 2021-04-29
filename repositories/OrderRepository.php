@@ -56,19 +56,20 @@ class OrderRepository
         $lastStatusId = $this->orderStatusRepository->getLastStatusId();
         $tableName = $isOrder === true ? 'boncde_entete' : 'bonrec_materiel';
         $dbTable = $isOrder === true ? $this->boncde_entete : $this->bonrec_materiel;
+        $columnName = $isOrder === true ? 'numcde' : 'numbrmat';
 
-        $sql = 'SELECT numcde FROM ' . $tableName . ' WHERE ISNULL(statusId) = 1 OR statusId <> ' . $lastStatusId;
+        $sql = 'SELECT ' . $columnName . ' FROM ' . $tableName . ' WHERE ISNULL(statusId) = 1 OR statusId <> ' . $lastStatusId;
         $result = $dbTable->query($sql);
         $orders = [];
         foreach ($result as $findOrder) {
-            $orders[] = ['ClbCde' => $findOrder['numcde']];
+            $orders[] = ['ClbCde' => $findOrder[$columnName]];
         }
 
         $ordersSapStatus = $this->orderStatusRepository->getSapStatus($orders);
 
         foreach ($ordersSapStatus as $orderSapStatus) {
             if ($orderSapStatus['dateStatus'] === false) {
-                $order = $dbTable->find('numcde', $orderSapStatus['numcde']);
+                $order = $dbTable->find($columnName, $orderSapStatus['numcde']);
                 $orderStatusDate = DateTime::createFromFormat('Y-m-d H:i:s', $order['credat'] . ' ' . $order['creheu'])
                     ->format('Y-m-d H:i:s');
             } else {
