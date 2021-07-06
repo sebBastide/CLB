@@ -98,7 +98,7 @@ $ctrl = new $ctrlname ();
 // test existence action
 if (!method_exists($ctrl, $action)) {
 	echo "<h1>Erreur 404 - Page introuvable</h1>";
-	echo "<h2>La page $url n'existe pas sur ce serveur.</h2>";
+	echo "<h2>La page $url existe pas sur ce serveur.</h2>";
 	header('HTTP/1.0 404 Not Found');
 	exit();
 }
