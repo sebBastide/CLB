@@ -4,3 +4,4 @@
 /config/
 /web/templates_c/
 /.idea/
+/dataTransform/*.sql
